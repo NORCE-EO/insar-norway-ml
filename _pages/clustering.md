@@ -1,9 +1,9 @@
 ---
 title: Clustering
 permalink: /clustering/
-nav_order: 2
 has_children: true
 toc: false
+nav_order: 20
 ---
 
 Clustering experiments aim to group time series with similar profiles.

@@ -3,6 +3,7 @@ layout: single
 title: InSAR Norway & Machine Learning
 permalink: /
 toc: false
+nav_order: 1
 ---
 
 <img src="{{ '/assets/figs/cover_img.png' | relative_url }}" style="width: 60%; max-width: 350px; display: block; margin: 0 auto;">
