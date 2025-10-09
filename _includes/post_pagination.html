@@ -10,6 +10,13 @@
   {% endif %}
 {% endfor %}
 {% assign nav_list = nav_pairs | split: '||' %}
+
+{% assign current_url = page.url %}
+{% assign current_url_no_base = current_url %}
+{% if site.baseurl and site.baseurl != '' %}
+  {% assign current_url_no_base = current_url | remove_first: site.baseurl %}
+{% endif %}
+
 {% assign previous_url = nil %}
 {% assign previous_title = nil %}
 {% assign next_url = nil %}
@@ -22,15 +29,20 @@
   {% assign parts = entry | split: '::' %}
   {% assign entry_url = parts[0] %}
   {% assign entry_title = parts[1] %}
+  {% assign entry_relative = entry_url | relative_url %}
+  {% assign entry_no_base = entry_relative %}
+  {% if site.baseurl and site.baseurl != '' %}
+    {% assign entry_no_base = entry_relative | remove_first: site.baseurl %}
+  {% endif %}
   {% if found and next_url == nil %}
-    {% assign next_url = entry_url %}
+    {% assign next_url = entry_relative %}
     {% assign next_title = entry_title %}
     {% break %}
   {% endif %}
-  {% if entry_url == page.url %}
+  {% if entry_relative == current_url or entry_no_base == current_url or entry_relative == current_url_no_base or entry_no_base == current_url_no_base %}
     {% assign found = true %}
   {% else %}
-    {% assign previous_url = entry_url %}
+    {% assign previous_url = entry_relative %}
     {% assign previous_title = entry_title %}
   {% endif %}
 {% endfor %}
@@ -42,7 +54,7 @@
       <a href="#" class="pagination--pager disabled">{{ site.data.ui-text[site.locale].pagination_previous | default: "Previous" }}</a>
     {% endif %}
     {% if next_url %}
-      <a href="{{ next_url | relative_url }}" class="pagination--pager" title="{{ next_title }}">{{ site.data.ui-text[site.locale].pagination_next | default: "Next" }}</a>
+      <a href="{{ next_url }}" class="pagination--pager" title="{{ next_title }}">{{ site.data.ui-text[site.locale].pagination_next | default: "Next" }}</a>
     {% else %}
       <a href="#" class="pagination--pager disabled">{{ site.data.ui-text[site.locale].pagination_next | default: "Next" }}</a>
     {% endif %}
