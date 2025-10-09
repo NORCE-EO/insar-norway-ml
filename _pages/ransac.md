@@ -2,7 +2,6 @@
 title: RANSAC Baseline
 permalink: /anomaly-detection/ransac/
 parent: Anomaly Detection
-nav_order: 11
 ---
 
 ## Overview

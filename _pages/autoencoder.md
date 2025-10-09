@@ -2,7 +2,6 @@
 title: Autoencoder Anomaly Detection
 permalink: /anomaly-detection/autoencoder/
 parent: Anomaly Detection
-nav_order: 12
 ---
 
 ## Overview

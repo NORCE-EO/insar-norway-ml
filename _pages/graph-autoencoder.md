@@ -2,7 +2,6 @@
 title: Graph Autoencoder Anomaly Detection
 permalink: /anomaly-detection/graph-autoencoder/
 parent: Anomaly Detection
-nav_order: 13
 ---
 
 ## Overview

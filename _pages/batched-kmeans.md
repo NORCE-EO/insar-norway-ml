@@ -2,7 +2,6 @@
 title: Batched K-means
 permalink: /clustering/batched-kmeans/
 parent: Clustering
-nav_order: 21
 ---
 
 Mini-batch $k$-means provides a scalable baseline to partition the InSAR catalogue into coherent deformation regimes.

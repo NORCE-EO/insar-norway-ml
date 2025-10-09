@@ -1,0 +1,50 @@
+{% assign nav_pairs = '' %}
+{% for item in site.data.navigation.main %}
+  {% capture pair %}{{ item.url }}::{{ item.title | strip }}{% endcapture %}
+  {% assign nav_pairs = nav_pairs | append: pair | append: '||' %}
+  {% if item.children %}
+    {% for child in item.children %}
+      {% capture child_pair %}{{ child.url }}::{{ child.title | strip }}{% endcapture %}
+      {% assign nav_pairs = nav_pairs | append: child_pair | append: '||' %}
+    {% endfor %}
+  {% endif %}
+{% endfor %}
+{% assign nav_list = nav_pairs | split: '||' %}
+{% assign previous_url = nil %}
+{% assign previous_title = nil %}
+{% assign next_url = nil %}
+{% assign next_title = nil %}
+{% assign found = false %}
+{% for entry in nav_list %}
+  {% if entry == '' %}
+    {% continue %}
+  {% endif %}
+  {% assign parts = entry | split: '::' %}
+  {% assign entry_url = parts[0] %}
+  {% assign entry_title = parts[1] %}
+  {% if found and next_url == nil %}
+    {% assign next_url = entry_url %}
+    {% assign next_title = entry_title %}
+    {% break %}
+  {% endif %}
+  {% if entry_url == page.url %}
+    {% assign found = true %}
+  {% else %}
+    {% assign previous_url = entry_url %}
+    {% assign previous_title = entry_title %}
+  {% endif %}
+{% endfor %}
+{% if previous_url or next_url %}
+  <nav class="pagination">
+    {% if previous_url %}
+      <a href="{{ previous_url | relative_url }}" class="pagination--pager" title="{{ previous_title }}">{{ site.data.ui-text[site.locale].pagination_previous | default: "Previous" }}</a>
+    {% else %}
+      <a href="#" class="pagination--pager disabled">{{ site.data.ui-text[site.locale].pagination_previous | default: "Previous" }}</a>
+    {% endif %}
+    {% if next_url %}
+      <a href="{{ next_url | relative_url }}" class="pagination--pager" title="{{ next_title }}">{{ site.data.ui-text[site.locale].pagination_next | default: "Next" }}</a>
+    {% else %}
+      <a href="#" class="pagination--pager disabled">{{ site.data.ui-text[site.locale].pagination_next | default: "Next" }}</a>
+    {% endif %}
+  </nav>
+{% endif %}

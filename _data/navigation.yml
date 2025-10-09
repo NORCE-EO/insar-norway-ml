@@ -2,12 +2,12 @@ main:
   - title: Anomaly Detection
     url: /anomaly-detection/
     children:
+      - title: RANSAC Baseline
+        url: /anomaly-detection/ransac/
       - title: Autoencoder
         url: /anomaly-detection/autoencoder/
       - title: Graph Autoencoder
         url: /anomaly-detection/graph-autoencoder/
-      - title: RANSAC Baseline
-        url: /anomaly-detection/ransac/
   - title: Clustering
     url: /clustering/
     children:

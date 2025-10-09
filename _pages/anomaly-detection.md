@@ -3,7 +3,6 @@ title: Anomaly Detection
 permalink: /anomaly-detection/
 has_children: true
 toc: false
-nav_order: 10
 ---
 
 This section gathers methods that flag abnormal displacement patterns in the InSAR catalogue. The focus is on contrasting a robust baseline with deep-learning approaches that leverage reconstruction and relational cues.
