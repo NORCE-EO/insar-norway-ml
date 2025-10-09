@@ -1,0 +1,46 @@
+---
+# This front-matter tells Jekyll to run the file through Sass.
+---
+
+/* 1️⃣  Pick your accent colour                                   */
+/*    Any valid CSS colour value works (#hex, rgb(), hsl(), etc.) */
+$brand-accent: #3408AC;
+
+/* 2️⃣  Override theme variables *before* importing the theme    */
+$primary-color:        $brand-accent;   // background of btn--primary
+$btn-primary-color:    $brand-accent;   // border of btn--primary
+$btn-primary-text-color: #ffffff;       // text/icon colour on the button
+$link-color:           $brand-accent;   // optional: links site-wide
+
+/* 3️⃣  Now pull in the rest of the theme so it reuses the new vars */
+@import "minimal-mistakes";
+
+/* Header tweaks */
+.greedy-nav {
+  column-gap: clamp(2rem, 2vw, 1.75rem);
+}
+
+.greedy-nav a.site-logo {
+  margin-inline-end: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+.greedy-nav .visible-links {
+  flex: 0 1 auto;
+  justify-content: flex-start;
+  margin-inline-start: clamp(1.25rem, 4vw, 2.5rem);
+  column-gap: clamp(0.75rem, 2vw, 1.5rem);
+}
+
+.embed-graph {
+  position: relative;
+  width: 100%;
+  padding-bottom: 60%; /* adjust aspect */
+}
+
+.embed-graph iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}

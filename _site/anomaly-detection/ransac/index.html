@@ -1,0 +1,320 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.27.3 by Michael Rose
+  Copyright 2013-2025 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>RANSAC Baseline - InSAR Norway &amp; ML</title>
+<meta name="description" content="Overview">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="InSAR Norway &amp; ML">
+<meta property="og:title" content="RANSAC Baseline">
+<meta property="og:url" content="http://localhost:4000/insar-norway-ml/anomaly-detection/ransac/">
+
+
+  <meta property="og:description" content="Overview">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2025-10-09T15:39:58+02:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/insar-norway-ml/anomaly-detection/ransac/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/insar-norway-ml/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+
+  
+    <script src="/insar-norway-ml/assets/js/mathjax_config.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+  
+
+
+    <link rel="icon" type="image/svg+xml" href="/insar-norway-ml/assets/figs/satellite.svg">
+<link rel="shortcut icon" href="/insar-norway-ml/assets/figs/satellite.svg">
+
+  </head>
+
+  <body class="layout--single" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/insar-norway-ml/"><img src="/insar-norway-ml/assets/figs/NORCE_Logo.png" alt="InSAR Norway & ML"></a>
+        
+        <a class="site-title" href="/insar-norway-ml/">
+          InSAR Norway &amp; ML
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/insar-norway-ml/anomaly-detection/"
+                
+                
+              >Anomaly Detection</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/insar-norway-ml/clustering/"
+                
+                
+              >Clustering</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+
+<div id="main" role="main">
+  
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="RANSAC Baseline">
+    <meta itemprop="description" content="Overview">
+    <meta itemprop="datePublished" content="2025-10-09T15:39:58+02:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">
+            <a href="http://localhost:4000/insar-norway-ml/anomaly-detection/ransac/" itemprop="url">RANSAC Baseline
+</a>
+          </h1>
+          
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> Contents</h4></header>
+              <ul class="toc__menu"><li><a href="#overview">Overview</a></li><li><a href="#outlier-detection-lyngen">Outlier Detection (Lyngen)</a><ul><li><a href="#time-series-line-fitting-point-wise">Time-Series Line Fitting (point-wise)</a></li><li><a href="#spatial-plane-fitting-global">Spatial Plane Fitting (global)</a></li></ul></li><li><a href="#other-results">Other Results</a><ul><li><a href="#nordnes">Nordnes</a></li><li><a href="#svalbard">Svalbard</a></li></ul></li><li><a href="#resampling-irregular-time-series">Resampling Irregular Time Series</a></li></ul>
+            </nav>
+          </aside>
+        
+        <h2 id="overview">Overview</h2>
+
+<p>Random Sample Consensus (RANSAC) is a robust estimation method that fits a model to data containing outliers. It iteratively samples minimal subsets of points (2D or 3D), fits a candidate model (e.g., a line or a plane), scores it by counting inliers within a residual threshold, and keeps the model with the largest consensus set. Unlike ordinary least squares (OLS), it tolerates a high fraction of outliers without being skewed by them.</p>
+
+<p><img src="/insar-norway-ml/assets/figs/ransac/ransac_vs_ols.png" alt="" /></p>
+
+<p>We use RANSAC in two places:</p>
+
+<ul>
+  <li>To detect outliers by fitting linear models (lines or planes) and classifying as outliers the points that are not explained by any consensus set. This serves as a <strong>baseline</strong> to compare more advanced deep-learning based methods later on.</li>
+  <li>To resample irregular time series onto a regular grid by using the fitted line as a principled interpolant between observed timestamps.</li>
+</ul>
+
+<h2 id="outlier-detection-lyngen">Outlier Detection (Lyngen)</h2>
+
+<h3 id="time-series-line-fitting-point-wise">Time-Series Line Fitting (point-wise)</h3>
+
+<p>For each time series $y(t)$, fit a line $y = m \cdot t + c$ using RANSAC on the irregular acquisition times. Timestamps whose vertical residuals satisfy</p>
+
+\[|y - (m \cdot t + c)| \leq \tau\]
+
+<p>are considered inliers; others behave as outliers for that series. The slope/intercept summarise the local linear trend; large disagreements with OLS or unusually poor consensus highlight problematic series.</p>
+
+<p>Below, the top $2.5\%$ time series with the highest disagreement between RANSAC and OLS are highlighted. Points are coloured according to the mean velocity. Outliers are depicted as larger squares.</p>
+
+<p><img src="/insar-norway-ml/assets/figs/ransac/Lyngen-small-2D-outliers-map.png" alt="" /></p>
+
+<p>The top 24 time series with the highest discrepancy between RANSAC and OLS are shown in detail below, along with their PID.</p>
+
+<p><img src="/insar-norway-ml/assets/figs/ransac/Lyngen-small-top-outlier-time-series.png" alt="" /></p>
+
+<h3 id="spatial-plane-fitting-global">Spatial Plane Fitting (global)</h3>
+
+<p>We fit planes $z = a \cdot x + b \cdot y + c$ where $x = \text{lat}$, $y = \text{lon}$, and $z$ is the RANSAC slope from the time-series fit. This allows us to capture local planar trends. Points far from the plane are outliers. By using partially overlapping sliding windows of different sizes, it is possible to fit the data more accurately. For overlaps, aggregate per-point inlier “votes” and keep points with enough consensus as inliers.</p>
+
+<p><img src="/insar-norway-ml/assets/figs/ransac/Lyngen-small-sliding-win.png" alt="" /></p>
+
+<p><strong>Problem:</strong> how large should the tiles be? Too small $\rightarrow$ overfit noise; too large $\rightarrow$ assign points too far away to the same plane. See below an example of results for sliding windows of different size.</p>
+
+<p><img src="/insar-norway-ml/assets/figs/ransac/RANSAC-plane-(win=1.0).png" alt="" /></p>
+
+<p><img src="/insar-norway-ml/assets/figs/ransac/RANSAC-plane-(win=0.50).png" alt="" /></p>
+
+<p><img src="/insar-norway-ml/assets/figs/ransac/RANSAC-plane-(win=0.25).png" alt="" /></p>
+
+<p><strong>Proposed solution:</strong> iteratively run sliding-window RANSAC with progressively <em>larger</em> tiles and <em>looser</em> consensus ratio. At each iteration, peel their inliers, and continue until no plane gathers enough consensus. The remaining points after all plane extractions are flagged as spatial outliers.</p>
+
+<p><img src="/insar-norway-ml/assets/figs/ransac/Lyngen-small-iterative-sliding-win.png" alt="" /></p>
+
+<h2 id="other-results">Other Results</h2>
+
+<h3 id="nordnes">Nordnes</h3>
+
+<p>The results for the Nordnes ROI are reported below.</p>
+
+<p><img src="/insar-norway-ml/assets/figs/ransac/Nordnes-2D-outliers-map.png" alt="" /></p>
+
+<p><img src="/insar-norway-ml/assets/figs/ransac/Nordnes-top-outlier-time-series.png" alt="" /></p>
+
+<p><img src="/insar-norway-ml/assets/figs/ransac/Nordnes-sliding-win.png" alt="" /></p>
+
+<p><img src="/insar-norway-ml/assets/figs/ransac/Nordnes-iterative-sliding-win.png" alt="" /></p>
+
+<h3 id="svalbard">Svalbard</h3>
+
+<p>The Svalbard time series are not very linear and, thus, not well represented by the RANSAC fit.
+We only report the plane fitting with sliding windows below.</p>
+
+<p><img src="/insar-norway-ml/assets/figs/ransac/Svalbard-sliding-win.png" alt="" /></p>
+
+<p><img src="/insar-norway-ml/assets/figs/ransac/Svalbard-iterative-sliding-win.png" alt="" /></p>
+
+<h2 id="resampling-irregular-time-series">Resampling Irregular Time Series</h2>
+
+<p>To obtain better time series embedding using <a href="/insar-norway-ml/anomaly-detection/autoencoder/#time-series-embedding-with-reservoir-computing">Reservoir Computing</a>, we first transformed irregular time series into a regularly sampled one by preserving observed values and filling unobserved steps with a robust trend obtained from RANSAC fits.
+Without this procedure, there were large gaps and irregular time samples in the time series, which could create unwanted artefacts.</p>
+
+<p>Procedure:</p>
+
+<ol>
+  <li>Fit RANSAC per series on $(t, y)$ to obtain slope $m$ and intercept $c$.</li>
+  <li>Build a regular time grid <code class="language-plaintext highlighter-rouge">t_reg</code> over <code class="language-plaintext highlighter-rouge">[t_min, t_max]</code>. The step was chosen as the difference in days.</li>
+  <li>For each series, fill the regular grid with $\hat{y}(t) = m \cdot t + c$. At timestamps where an observation exists, keep the original value and overwrite the prediction.</li>
+</ol>
+
+<p><img src="/insar-norway-ml/assets/figs/ransac/ransac-regularization.png" alt="" /></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2025-10-09T15:39:58+02:00">October 9, 2025</time></p>
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/insar-norway-ml/anomaly-detection/graph-autoencoder/" class="pagination--pager" title="Graph Autoencoder Anomaly Detection">Previous</a>
+    
+    
+      <a href="/insar-norway-ml/semi-supervised-learning/" class="pagination--pager" title="Semi-supervised Learning">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        
+
+
+<div class="page__footer-copyright">&copy; 2025 <a href="https://filippomb.github.io">Filippo Maria Bianchi</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/insar-norway-ml/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,302 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.27.3 by Michael Rose
+  Copyright 2013-2025 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Graph Autoencoder Anomaly Detection - InSAR Norway &amp; ML</title>
+<meta name="description" content="Overview">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="InSAR Norway &amp; ML">
+<meta property="og:title" content="Graph Autoencoder Anomaly Detection">
+<meta property="og:url" content="http://localhost:4000/insar-norway-ml/anomaly-detection/graph-autoencoder/">
+
+
+  <meta property="og:description" content="Overview">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2025-10-09T15:39:58+02:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/insar-norway-ml/anomaly-detection/graph-autoencoder/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/insar-norway-ml/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+
+  
+    <script src="/insar-norway-ml/assets/js/mathjax_config.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+  
+
+
+    <link rel="icon" type="image/svg+xml" href="/insar-norway-ml/assets/figs/satellite.svg">
+<link rel="shortcut icon" href="/insar-norway-ml/assets/figs/satellite.svg">
+
+  </head>
+
+  <body class="layout--single" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/insar-norway-ml/"><img src="/insar-norway-ml/assets/figs/NORCE_Logo.png" alt="InSAR Norway & ML"></a>
+        
+        <a class="site-title" href="/insar-norway-ml/">
+          InSAR Norway &amp; ML
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/insar-norway-ml/anomaly-detection/"
+                
+                
+              >Anomaly Detection</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/insar-norway-ml/clustering/"
+                
+                
+              >Clustering</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+
+<div id="main" role="main">
+  
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Graph Autoencoder Anomaly Detection">
+    <meta itemprop="description" content="Overview">
+    <meta itemprop="datePublished" content="2025-10-09T15:39:58+02:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">
+            <a href="http://localhost:4000/insar-norway-ml/anomaly-detection/graph-autoencoder/" itemprop="url">Graph Autoencoder Anomaly Detection
+</a>
+          </h1>
+          
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> Contents</h4></header>
+              <ul class="toc__menu"><li><a href="#overview">Overview</a><ul><li><a href="#graph-construction">Graph Construction</a></li><li><a href="#main-idea">Main idea</a></li><li><a href="#model-architecture">Model architecture</a></li></ul></li><li><a href="#results">Results</a><ul><li><a href="#lyngen">Lyngen</a></li><li><a href="#nordnes">Nordnes</a></li><li><a href="#svalbard">Svalbard</a></li></ul></li></ul>
+            </nav>
+          </aside>
+        
+        <h2 id="overview">Overview</h2>
+
+<p>The graph autoencoder (GAE) extends reconstruction-based anomaly detection by encoding spatial relationships between neighbouring InSAR points.
+Nodes represent observation points, with edges defined by k-nearest neighbours in geographic space.</p>
+
+<h3 id="graph-construction">Graph Construction</h3>
+
+<ul>
+  <li><strong>Nodes:</strong> Individual time series.</li>
+  <li><strong>Edges:</strong> $k$-NN in latitude/longitude; edge weights proportional to the distance.</li>
+  <li><strong>Features:</strong> Normalised time-series embeddings and optional static metadata.</li>
+</ul>
+
+<h3 id="main-idea">Main idea</h3>
+
+<p>The idea is to first sample some seed nodes and then sample nodes from the neighborhood of each seed node.
+The GAE must reconstruct the feature of each seed node from its neighborhood.</p>
+
+<p><img src="/insar-norway-ml/assets/figs/graph-ae/gae-steps1-2.png" alt="" /></p>
+
+<p><img src="/insar-norway-ml/assets/figs/graph-ae/gae-steps3.png" style="width: 50%; max-width: 350px; display: block; margin: 0 auto;" /></p>
+
+<p>Nodes associated with high reconstruction error will be considered outliers, as their features significantly differ from those of the neighbors.</p>
+
+<p>This technique is particularly effective to spot noisy samples, e.g., due to some processing errors.</p>
+
+<p>An example of a data batch used to train the GAE is given below.</p>
+
+<div class="embed-graph">
+  <iframe src="/insar-norway-ml/assets/figs/graph-ae/batch_graph.html" title="Batch Graph" loading="lazy"></iframe>
+</div>
+
+<h3 id="model-architecture">Model architecture</h3>
+
+<p>The GAE model consists of an <strong>encoder</strong> and a <strong>decoder</strong>. The encoder has a stack of GCN layers, while the decoder is an MLP.
+The architecture used is the following.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">architecture</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">Graph-AE</span>
+  <span class="na">type</span><span class="pi">:</span> <span class="s">AutoEncoder</span>
+  <span class="na">hparams</span><span class="pi">:</span>
+    <span class="na">encoder_dims</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">32</span><span class="pi">,</span> <span class="nv">32</span><span class="pi">,</span> <span class="nv">16</span><span class="pi">,</span> <span class="nv">16</span><span class="pi">]</span>
+    <span class="na">latent_channels</span><span class="pi">:</span> <span class="m">8</span>
+    <span class="na">decoder_dims</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">8</span><span class="pi">,</span> <span class="nv">16</span><span class="pi">]</span>
+    <span class="na">activation</span><span class="pi">:</span> <span class="s2">"</span><span class="s">ReLU"</span>
+    <span class="na">batch_norm</span><span class="pi">:</span> <span class="s">True</span>
+    <span class="na">dropout</span><span class="pi">:</span> <span class="m">0.1</span>
+</code></pre></div></div>
+
+<h2 id="results">Results</h2>
+
+<h3 id="lyngen">Lyngen</h3>
+
+<p><img src="/insar-norway-ml/assets/figs/graph-ae/mse_Graph-AE_Lyngen-small.png" alt="" /></p>
+
+<p><img src="/insar-norway-ml/assets/figs/graph-ae/mse_thresh_Graph-AE_Lyngen-small.png" alt="" /></p>
+
+<h3 id="nordnes">Nordnes</h3>
+
+<p><img src="/insar-norway-ml/assets/figs/graph-ae/mse_Graph-AE_Nordnes.png" alt="" /></p>
+
+<p><img src="/insar-norway-ml/assets/figs/graph-ae/mse_thresh_Graph-AE_Nordnes.png" alt="" /></p>
+
+<h3 id="svalbard">Svalbard</h3>
+
+<p><img src="/insar-norway-ml/assets/figs/graph-ae/mse_Graph-AE_Svalbard-1.png" alt="" /></p>
+
+<p><img src="/insar-norway-ml/assets/figs/graph-ae/mse_thresh_Graph-AE_Svalbard-1.png" alt="" /></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2025-10-09T15:39:58+02:00">October 9, 2025</time></p>
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/insar-norway-ml/clustering/gnn-based-clustering/" class="pagination--pager" title="GNN-based Clustering">Previous</a>
+    
+    
+      <a href="/insar-norway-ml/anomaly-detection/ransac/" class="pagination--pager" title="RANSAC Baseline">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        
+
+
+<div class="page__footer-copyright">&copy; 2025 <a href="https://filippomb.github.io">Filippo Maria Bianchi</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/insar-norway-ml/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

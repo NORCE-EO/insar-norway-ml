@@ -1,0 +1,52 @@
+# --- BASIC SITE META ---
+title: InSAR Norway & ML
+author: Filippo Maria Bianchi
+description: Results from the application of machine learning techniques to InSAR data in Norway
+url: "https://norce-eo.github.io"
+baseurl: "/insar-norway-ml"
+
+# --- THEME ---
+remote_theme: mmistakes/minimal-mistakes
+minimal_mistakes_skin: "contrast"
+logo: "/assets/figs/NORCE_Logo.png"
+
+# --- FEED ---
+atom_feed:
+  hide: true
+
+# --- FOOTER ---
+copyright: "Filippo Maria Bianchi"
+copyright_url: "https://sites.google.com/view/filippombianchi/home"
+
+
+# --- MATHJAX SCRIPTS ---
+head_scripts:
+  - /assets/js/mathjax_config.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js
+
+# --- PLUGINS ---
+plugins:
+  - jekyll-include-cache
+
+markdown: kramdown
+kramdown:
+  math_engine: mathjax
+
+# --- COLLECTIONS ---
+collections:
+  pages:
+    output: true
+    permalink: /:path/
+
+# --- DEFAULTS ---
+defaults:
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: single
+      toc: true
+      toc_label: "Contents"
+      toc_sticky: true
+      mathjax: true
+      author_profile: false
