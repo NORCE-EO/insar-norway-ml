@@ -77,11 +77,11 @@ On Svalbard data, the features are:
 
 Clustering partition (dynamic features only).
 
-![]({{ '/assets/figs/clustering/Lyngen-small_batched_kmeans_map_dyn.png' | relative_url }})
+![]({{ '/assets/figs/clustering/Lyngen-small_batched-kmeans-dyn_map.png' | relative_url }})
 
 Mean and standard deviation of each cluster (dynamic features only).
 
-![]({{ '/assets/figs/clustering/Lyngen-small_batched_kmeans_cluster_dyn.png' | relative_url }})
+![]({{ '/assets/figs/clustering/Lyngen-small_batched-kmeans-dyn_clusters.png' | relative_url }})
 
 Clustering partition (dynamic and static features).
 

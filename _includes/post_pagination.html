@@ -22,6 +22,8 @@
 {% assign next_url = nil %}
 {% assign next_title = nil %}
 {% assign found = false %}
+{% assign first_url = nil %}
+{% assign first_title = nil %}
 {% for entry in nav_list %}
   {% if entry == '' %}
     {% continue %}
@@ -29,6 +31,10 @@
   {% assign parts = entry | split: '::' %}
   {% assign entry_url = parts[0] %}
   {% assign entry_title = parts[1] %}
+  {% if first_url == nil %}
+    {% assign first_url = entry_url %}
+    {% assign first_title = entry_title %}
+  {% endif %}
   {% assign entry_relative = entry_url | relative_url %}
   {% assign entry_no_base = entry_relative %}
   {% if site.baseurl and site.baseurl != '' %}
@@ -46,6 +52,14 @@
     {% assign previous_title = entry_title %}
   {% endif %}
 {% endfor %}
+{% unless found %}
+  {% if first_url %}
+    {% assign next_url = first_url %}
+    {% assign next_title = first_title %}
+    {% assign previous_url = nil %}
+    {% assign previous_title = nil %}
+  {% endif %}
+{% endunless %}
 {% if previous_url or next_url %}
   <nav class="pagination">
     {% if previous_url %}
