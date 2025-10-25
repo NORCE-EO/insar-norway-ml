@@ -49,28 +49,22 @@ The batched version only needs a fraction of the dataset in memory at any point,
 
 ## Results
 
-The **dynamic** features are the [Reservoir embeddings]({{ '/anomaly-detection/autoencoder/#time-series-embedding-with-reservoir-computing' | relative_url }})
+The **dynamic** features are the [Reservoir embeddings]({{ '/anomaly-detection/autoencoder/#time-series-embedding-with-reservoir-computing' | relative_url }}).
 
-The **static** features in mainland Norway are:
+The **static** features in mainland Norway (Lyngen, Nordnes) are:
 
 - height
 - mean velocity
 - temporal coherence
 - aplitude dispersion
-- incidence angle
-- track angle
 
-On Svalbard data, the features are:
+On Svalbard data, the static features are:
 
 - ELEVATION
-- MAXDIS
-- RANGE
-- AZIMUTH
+- MAXDISP
 - COHERENCE
 - DEMERR
 - SLOPE
-- incidence_angle
-- track_angle
 - DOYMAX
 
 ### Lyngen
@@ -85,44 +79,44 @@ Mean and standard deviation of each cluster (dynamic features only).
 
 Clustering partition (dynamic and static features).
 
-![]({{ '/assets/figs/clustering/Lyngen-small_batched_kmeans_map_dyn+static.png' | relative_url }})
+![]({{ '/assets/figs/clustering/Lyngen-small_batched-kmeans-dyn+static_map.png' | relative_url }})
 
 Mean and standard deviation of each cluster (dynamic and static features).
 
-![]({{ '/assets/figs/clustering/Lyngen-small_batched_kmeans_cluster_dyn+static.png' | relative_url }})
+![]({{ '/assets/figs/clustering/Lyngen-small_batched-kmeans-dyn+static_clusters.png' | relative_url }})
 
 ### Nordnes
 
 Clustering partition (dynamic features only).
 
-![]({{ '/assets/figs/clustering/Nordnes_batched_kmeans_map_dyn.png' | relative_url }})
+![]({{ '/assets/figs/clustering/Nordnes_batched-kmeans-dyn_map.png' | relative_url }})
 
 Mean and standard deviation of each cluster (dynamic features only).
 
-![]({{ '/assets/figs/clustering/Nordnes_batched_kmeans_cluster_dyn.png' | relative_url }})
+![]({{ '/assets/figs/clustering/Nordnes_batched-kmeans-dyn_clusters.png' | relative_url }})
 
 Clustering partition (dynamic and static features).
 
-![]({{ '/assets/figs/clustering/Nordnes_batched_kmeans_map_dyn+static.png' | relative_url }})
+![]({{ '/assets/figs/clustering/Nordnes_batched-kmeans-dyn+static_map.png' | relative_url }})
 
 Mean and standard deviation of each cluster (dynamic and static features).
 
-![]({{ '/assets/figs/clustering/Nordnes_batched_kmeans_cluster_dyn+static.png' | relative_url }})
+![]({{ '/assets/figs/clustering/Nordnes_batched-kmeans-dyn+static_clusters.png' | relative_url }})
 
 ### Svalbard
 
 Clustering partition (dynamic features only).
 
-![]({{ '/assets/figs/clustering/Svalbard-1_batched_kmeans_map_dyn.png' | relative_url }})
+![]({{ '/assets/figs/clustering/Svalbard-1_batched-kmeans-dyn_map.png' | relative_url }})
 
 Mean and standard deviation of each cluster (dynamic features only).
 
-![]({{ '/assets/figs/clustering/Svalbard-1_batched_kmeans_cluster_dyn.png' | relative_url }})
+![]({{ '/assets/figs/clustering/Svalbard-1_batched-kmeans-dyn_clusters.png' | relative_url }})
 
 Clustering partition (dynamic and static features).
 
-![]({{ '/assets/figs/clustering/Svalbard-1_batched_kmeans_map_dyn+static.png' | relative_url }})
+![]({{ '/assets/figs/clustering/Svalbard-1_batched-kmeans-dyn+static_map.png' | relative_url }})
 
 Mean and standard deviation of each cluster (dynamic and static features).
 
-![]({{ '/assets/figs/clustering/Svalbard-1_batched_kmeans_cluster_dyn+static.png' | relative_url }})
+![]({{ '/assets/figs/clustering/Svalbard-1_batched-kmeans-dyn+static_clusters.png' | relative_url }})

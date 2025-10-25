@@ -23,4 +23,4 @@ Approaches that aim at detecting abnormal displacement patterns.
 Approaches that partition the InSAR data into coherent groups.
 
 - [Batched K-means]({{ '/clustering/batched-kmeans/' | relative_url }}) — partition the time series with a scalable mini-batch clustering approach for large data.
-- [GNN-based Clustering]({{ '/clustering/gnn-based-clustering/' | relative_url }}) — leverages graph neural networks to form clusters accounting for both temporal dynamics and spatial patterns.
+- [Spatial-Smoothing Clustering]({{ '/clustering/spatial-smoothing-clustering/' | relative_url }}) — leverages graph neural networks to form clusters accounting for both temporal dynamics and spatial patterns.

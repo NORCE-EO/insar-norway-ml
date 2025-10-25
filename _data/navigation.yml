@@ -13,5 +13,5 @@ main:
     children:
       - title: Batched K-means
         url: /clustering/batched-kmeans/
-      - title: GNN-based Clustering
-        url: /clustering/gnn-based-clustering/
+      - title: Spatial-Smoothing Clustering
+        url: /clustering/spatial-smoothing-clustering/
