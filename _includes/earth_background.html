@@ -1,0 +1,13 @@
+{% comment %}
+  Animated Earth-from-space background (video + overlay).
+  Uses: earth-loop.mp4 (primary), earth-loop.webm (fallback).
+  Transcode your source with: ./assets/video/transcode.sh
+  Honor prefers-reduced-motion via earth-background.js
+{% endcomment %}
+<div id="earth-background" class="earth-background" aria-hidden="true">
+  <video class="earth-background__video" autoplay muted loop playsinline>
+    <source src="{{ '/assets/video/earth-loop.webm' | relative_url }}" type="video/webm">
+    <source src="{{ '/assets/video/earth-loop.mp4' | relative_url }}" type="video/mp4">
+  </video>
+  <div class="earth-background__overlay"></div>
+</div>

@@ -1,3 +1,6 @@
 <p class="text-small text-grey-dk-100">
   &copy; {{ 'now' | date: '%Y' }} <a href="https://sites.google.com/view/filippombianchi/home">{{ site.footer_author | default: "Filippo Maria Bianchi" }}</a>
+  {% if site.earth_background_attribution %}
+  <span class="text-grey-dk-200"> | {{ site.earth_background_attribution }}</span>
+  {% endif %}
 </p>

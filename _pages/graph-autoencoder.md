@@ -21,11 +21,11 @@ Nodes represent observation points, and edges are built from geographic nearest 
 Seed nodes and their sampled neighborhoods are passed through a graph encoder-decoder.
 The model reconstructs each seed-node feature from local context. Nodes with large reconstruction errors are flagged as anomalies.
 
-{% capture pipeline_figures %}
-{% include gallery_figure.html src="/assets/figs/graph-ae/gae-steps1-2.png" caption="Sampling seed nodes and neighborhood subgraphs." %}
-{% include gallery_figure.html src="/assets/figs/graph-ae/gae-steps3.png" caption="Graph autoencoder reconstruction objective on sampled neighborhoods." %}
-{% endcapture %}
-{% include gallery_section.html title="GAE Workflow" content=pipeline_figures %}
+### GAE Workflow
+
+{% include standalone_figure.html src="/assets/figs/graph-ae/gae-steps1-2.png" caption="Sampling seed nodes and neighborhood subgraphs." %}
+
+{% include standalone_figure.html src="/assets/figs/graph-ae/gae-steps3.png" caption="Graph autoencoder reconstruction objective on sampled neighborhoods." max_width="450px" %}
 
 This setup is effective for identifying locally inconsistent behavior, including noisy samples caused by processing artifacts.
 

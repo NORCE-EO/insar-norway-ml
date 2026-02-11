@@ -1,2 +1,6 @@
 _site/
 .DS_Store
+
+# Large source video (transcode with assets/video/transcode.sh; commit .mp4/.webm instead)
+assets/video/earth-loop-1.mov
+assets/video/earth-loop-2.mov

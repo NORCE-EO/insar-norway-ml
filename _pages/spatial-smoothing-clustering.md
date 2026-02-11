@@ -15,10 +15,9 @@ $$
 
 where $\alpha$ controls how strongly the original feature is preserved and $\mathcal{N}_i$ is the neighborhood of node $i$.
 
-{% capture method_figures %}
-{% include gallery_figure.html src="/assets/figs/clustering-smoothed/kmeans_smoothed.png" caption="Feature smoothing over graph neighborhoods before mini-batch clustering." %}
-{% endcapture %}
-{% include gallery_section.html title="Method Visual Overview" content=method_figures %}
+### Method Visual Overview
+
+{% include standalone_figure.html src="/assets/figs/clustering-smoothed/kmeans_smoothed.png" caption="Feature smoothing over graph neighborhoods before mini-batch clustering." %}
 
 The graph is built and sampled as in the [Graph Autoencoder]({{ '/anomaly-detection/graph-autoencoder/#graph-construction' | relative_url }}).
 

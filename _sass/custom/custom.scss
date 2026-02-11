@@ -9,13 +9,14 @@
   --insar-surface-soft: #f8fbff;
   --insar-ink-900: #12273d;
   --insar-ink-700: #2b4a69;
+  --insar-ink-600: #3d5a7a;
   --insar-ink-500: #577291;
   --insar-border: #d6e1ec;
-  --insar-brand: #0d6a8c;
-  --insar-brand-strong: #0a5470;
+  --insar-brand: #0e1940;
+  --insar-brand-strong: #080d20;
   --insar-warm: #dc6d2e;
-  --insar-shadow-sm: 0 6px 18px rgba(10, 39, 62, 0.08);
-  --insar-shadow-md: 0 18px 38px rgba(10, 39, 62, 0.13);
+  --insar-shadow-sm: 0 6px 18px rgba(14, 25, 64, 0.08);
+  --insar-shadow-md: 0 18px 38px rgba(14, 25, 64, 0.13);
 }
 
 html {
@@ -49,19 +50,81 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: -2;
   pointer-events: none;
   background:
-    radial-gradient(circle at 8% 10%, rgba(13, 106, 140, 0.09), transparent 42%),
+    radial-gradient(circle at 8% 10%, rgba(14, 25, 64, 0.09), transparent 42%),
     radial-gradient(circle at 88% 14%, rgba(220, 109, 46, 0.12), transparent 48%),
-    radial-gradient(circle at 72% 84%, rgba(13, 106, 140, 0.08), transparent 45%);
+    radial-gradient(circle at 72% 84%, rgba(14, 25, 64, 0.08), transparent 45%);
 }
 
-// Navigation shell
+// --- Earth background (video + overlay) ----
+.earth-background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.earth-background__video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translateX(25%);
+}
+
+.earth-background__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.5) 0%,
+    rgba(0, 0, 0, 0.5) 50%,
+    rgba(0, 0, 0, 0.2) 100%
+  );
+  pointer-events: none;
+}
+
+// Fallback when video is absent or fails: body gradient remains visible
+.earth-background--reduced .earth-background__video {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.earth-background--unavailable {
+  display: none;
+}
+
+// --- Sidebar: compact, readable on dark Earth background, less left whitespace ---
 .side-bar {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.94) 0%, rgba(241, 247, 253, 0.94) 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.97) 0%, rgba(248, 251, 255, 0.97) 100%) !important;
+  backdrop-filter: blur(6px);
   border-right-color: var(--insar-border);
   box-shadow: inset -1px 0 0 rgba(18, 39, 61, 0.05);
+  padding-right: 1rem;
+  padding-left: 0 !important;
+}
+
+.side-bar .site-header,
+.side-bar .site-nav,
+.side-bar .site-footer {
+  padding-left: 0.25rem !important;
+}
+
+.side-bar .site-title {
+  padding-left: 0.25rem !important;
+}
+
+.side-bar .nav-list {
+  padding-left: 0.25rem !important;
+}
+
+.nav-list {
+  margin-top: 0.25rem;
 }
 
 .site-header {
@@ -101,21 +164,25 @@ body::before {
 
 .nav-list .nav-list-link {
   color: var(--insar-ink-700);
-  border-radius: 0.5rem;
-  margin-bottom: 0.12rem;
-  transition: background-color 0.18s ease, color 0.18s ease;
+  padding: 0.35rem 0.6rem !important;
+  border-radius: 0.35rem;
+  margin-bottom: 0.08rem;
+  border-left: 2px solid transparent;
+  transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
 }
 
 .nav-list .nav-list-link:hover {
   color: var(--insar-brand-strong);
-  background: rgba(13, 106, 140, 0.1);
+  background: rgba(14, 25, 64, 0.06);
 }
 
 .nav-list .nav-list-item.active > .nav-list-link,
 .nav-list .nav-list-item > .nav-list-link.active {
   color: var(--insar-brand-strong);
-  background: rgba(13, 106, 140, 0.14);
+  background: rgba(14, 25, 64, 0.14);
+  border-left-color: var(--insar-brand);
   font-weight: 600;
+  box-shadow: 0 1px 4px rgba(18, 39, 61, 0.06);
 }
 
 .nav-list .nav-list-expander {
@@ -126,27 +193,95 @@ body::before {
 
 .nav-list .nav-list-expander:hover {
   color: var(--insar-brand-strong);
-  background: rgba(13, 106, 140, 0.1);
+  background: rgba(14, 25, 64, 0.1);
 }
 
+.nav-list .nav-list-item .nav-list .nav-list-link {
+  padding: 0.3rem 0.5rem 0.3rem 0.75rem !important;
+  font-size: 0.95rem;
+}
+
+// Breadcrumbs: subtle, not competing with content
+.breadcrumb-nav {
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.6rem;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.breadcrumb-nav a {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.breadcrumb-nav a:hover {
+  color: #fff;
+}
+
+// --- Search: readable on dark Earth background, space between magnifier and text ----
 .main-header {
-  background: transparent;
+  background: transparent !important;
+  padding: 0.5rem 0 0.75rem;
   border-bottom: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: max(1rem, calc((100% - 60rem) / 2));
+}
+
+.main-header > div:first-child,
+.search-input-wrap {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin-right: auto;
 }
 
 .main-header input[type="search"],
 .main-header input[type="text"],
-.search-input {
-  border: 1px solid var(--insar-border);
-  border-radius: 0.7rem;
-  background: rgba(255, 255, 255, 0.9);
-  color: var(--insar-ink-900);
+.search-input,
+input[type="search"],
+input.search-input {
+  max-width: 18rem;
+  padding: 0.4rem 0.85rem 0.4rem 4rem !important;
+  font-size: 0.9rem;
+  color: var(--insar-ink-900) !important;
+  border: 1px solid var(--insar-border) !important;
+  border-radius: 999px !important;
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.main-header input[type="search"]:focus,
+.main-header input[type="text"]:focus,
+.search-input:focus {
+  background-color: #fff !important;
+  border-color: var(--insar-brand) !important;
+  outline: none;
 }
 
 .main-header input[type="search"]::placeholder,
 .main-header input[type="text"]::placeholder,
 .search-input::placeholder {
   color: var(--insar-ink-500);
+}
+
+/* Magnifier icon readable on dark background */
+.main-header .search-icon {
+  color: var(--insar-ink-700) !important;
+}
+
+// --- Spacing: sidebar breathes, content not cramped ---
+.main {
+  gap: 1.5rem;
+}
+
+@media (min-width: 50rem) {
+  .main-content-wrap {
+    padding-left: 1.5rem;
+  }
 }
 
 // Main content shell
@@ -191,7 +326,7 @@ body::before {
   padding: 0.5rem 0 0.55rem 0.95rem;
   border-left: 4px solid var(--insar-brand);
   border-radius: 0 0.5rem 0.5rem 0;
-  background: linear-gradient(90deg, rgba(13, 106, 140, 0.1) 0%, transparent 100%);
+  background: linear-gradient(90deg, rgba(14, 25, 64, 0.1) 0%, transparent 100%);
   font-size: clamp(1.3rem, 2.1vw, 1.6rem);
 }
 
@@ -248,7 +383,7 @@ body::before {
 
 .main-content a:hover {
   color: var(--insar-brand-strong);
-  border-bottom-color: rgba(10, 84, 112, 0.38);
+  border-bottom-color: rgba(14, 25, 64, 0.38);
 }
 
 .main-content img {
@@ -302,7 +437,7 @@ body::before {
 }
 
 .main-content th {
-  background: rgba(13, 106, 140, 0.1);
+  background: rgba(14, 25, 64, 0.1);
   color: var(--insar-ink-900);
   font-weight: 600;
 }
@@ -316,7 +451,7 @@ body::before {
   padding: 0.8rem 1rem;
   border-left: 4px solid var(--insar-brand);
   border-radius: 0 0.5rem 0.5rem 0;
-  background: rgba(13, 106, 140, 0.08);
+  background: rgba(14, 25, 64, 0.08);
 }
 
 .main-content blockquote p {
@@ -329,7 +464,7 @@ body::before {
   padding: clamp(1.2rem, 2vw, 1.9rem);
   border: 1px solid var(--insar-border);
   border-radius: 1rem;
-  background: linear-gradient(132deg, rgba(13, 106, 140, 0.12) 0%, rgba(255, 255, 255, 0.9) 62%);
+  background: linear-gradient(132deg, rgba(14, 25, 64, 0.12) 0%, rgba(255, 255, 255, 0.9) 62%);
   box-shadow: var(--insar-shadow-sm);
   animation: insar-rise 0.45s ease-out both;
 }
@@ -366,15 +501,15 @@ body::before {
   padding: clamp(1rem, 2.1vw, 1.7rem);
   border: 1px solid var(--insar-border);
   border-radius: 0.9rem;
-  background: linear-gradient(180deg, var(--insar-surface) 0%, var(--insar-surface-soft) 100%);
-  box-shadow: var(--insar-shadow-sm);
+  background: linear-gradient(180deg, #ffffff 0%, rgba(3, 3, 84, 0.06) 100%);
+  box-shadow: 0 6px 20px rgba(3, 3, 84, 0.15);
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   animation: insar-rise 0.45s ease-out both;
 }
 
 .content-section:hover {
   transform: translateY(-2px);
-  border-color: rgba(13, 106, 140, 0.28);
+  border-color: rgba(14, 25, 64, 0.28);
   box-shadow: var(--insar-shadow-md);
 }
 
@@ -396,14 +531,39 @@ body::before {
   margin: 0;
 }
 
+// Standalone methodology figure: same shape as before, no dark border
+.standalone-figure {
+  margin: 1.3rem 0;
+  max-width: 100%;
+  width: fit-content;
+}
+
+.standalone-figure img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0;
+  padding: 1.25rem;
+  background: #fff;
+  border: 1px solid var(--insar-border);
+  box-shadow: 0 2px 8px rgba(3, 3, 84, 0.08);
+}
+
+.standalone-figure figcaption {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: var(--insar-ink-700);
+}
+
 // Gallery blocks
 .gallery-section {
   margin: 1.9rem 0;
   padding: clamp(0.95rem, 1.8vw, 1.45rem);
   border: 1px solid var(--insar-border);
   border-radius: 0.9rem;
-  background: linear-gradient(180deg, var(--insar-surface) 0%, #f3f8fd 100%);
-  box-shadow: var(--insar-shadow-sm);
+  background: linear-gradient(180deg, #ffffff 0%, rgba(3, 3, 84, 0.08) 100%);
+  box-shadow: 0 6px 20px rgba(3, 3, 84, 0.15);
   animation: insar-rise 0.45s ease-out both;
 }
 
@@ -420,15 +580,16 @@ body::before {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
+  align-items: center;
 }
 
 .gallery-section__item {
   margin: 0;
   border-radius: 0.7rem;
   overflow: hidden;
-  border: 1px solid rgba(18, 39, 61, 0.08);
+  border: 1px solid rgba(3, 3, 84, 0.2);
   background: #fff;
-  box-shadow: 0 4px 14px rgba(10, 39, 62, 0.08);
+  box-shadow: 0 4px 14px rgba(3, 3, 84, 0.18);
   animation: insar-fade 0.42s ease-out both;
 }
 
@@ -450,7 +611,7 @@ body::before {
   font-size: 0.7rem;
   letter-spacing: 0.02em;
   color: #fff;
-  background: rgba(10, 84, 112, 0.84);
+  background: rgba(14, 25, 64, 0.84);
   opacity: 0;
   transform: translateY(4px);
   transition: opacity 0.18s ease, transform 0.18s ease;

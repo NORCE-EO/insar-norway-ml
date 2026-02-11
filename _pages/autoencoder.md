@@ -15,11 +15,11 @@ The core assumption is that anomalous samples are rare. The autoencoder therefor
 As discussed in the [RANSAC section]({{ '/anomaly-detection/ransac/' | relative_url }}), the time series are first regularized by filling missing timestamps with robust trend estimates.
 After regularization, each series is converted into a static embedding using Reservoir Computing.
 
-{% capture method_figures %}
-{% include gallery_figure.html src="/assets/figs/autoencoder/autoencoder-idea.png" caption="Autoencoder principle: compress and reconstruct to expose anomalous behavior." %}
-{% include gallery_figure.html src="/assets/figs/autoencoder/RC-overview.png" caption="Reservoir Computing pipeline used to convert each time series into a fixed embedding." %}
-{% endcapture %}
-{% include gallery_section.html title="Method Visual Overview" content=method_figures %}
+### Method Visual Overview
+
+{% include standalone_figure.html src="/assets/figs/autoencoder/autoencoder-idea.png" caption="Autoencoder principle: compress and reconstruct to expose anomalous behavior." %}
+
+{% include standalone_figure.html src="/assets/figs/autoencoder/RC-overview.png" caption="Reservoir Computing pipeline used to convert each time series into a fixed embedding." %}
 
 The vector representation can be, for example, the last reservoir state or readout weights trained on the sequence dynamics.
 For a detailed introduction to Reservoir Computing embeddings, see [this reference](https://filippomb.github.io/python-time-series-handbook/notebooks/12/classification-clustering.html#time-series-embedding).

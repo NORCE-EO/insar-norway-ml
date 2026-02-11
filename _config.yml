@@ -20,6 +20,7 @@ footer_content: false
 last_edit_timestamp: false
 gh_edit_link: false
 footer_author: Filippo Maria Bianchi
+# earth_background_attribution: "Earth video: Tubebacks"  # Uncomment if license requires
 
 # --- COLOR ---
 color_scheme: light

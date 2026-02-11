@@ -11,10 +11,9 @@ Random Sample Consensus (RANSAC) is a robust estimator for fitting models in the
 At each iteration, it samples a minimal subset, fits a candidate model, scores inliers under a residual threshold, and retains the model with the strongest consensus.
 Compared with ordinary least squares (OLS), it remains stable even when outliers are abundant.
 
-{% capture overview_figures %}
-{% include gallery_figure.html src="/assets/figs/ransac/ransac_vs_ols.png" caption="RANSAC vs OLS behavior under outlier contamination." %}
-{% endcapture %}
-{% include gallery_section.html title="RANSAC Intuition" content=overview_figures %}
+### RANSAC Intuition
+
+{% include standalone_figure.html src="/assets/figs/ransac/ransac_vs_ols.png" caption="RANSAC vs OLS behavior under outlier contamination." max_width="450px" %}
 
 We use RANSAC for:
 

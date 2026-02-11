@@ -6,7 +6,7 @@ nav_order: 1
 ---
 
 <div class="page-hero">
-  <p class="page-hero__kicker">InSAR Norway Research Atlas</p>
+  <p class="page-hero__kicker">InSAR Norway - Machine Learning Research</p>
   <div class="page-hero__media">
     <img src="{{ '/assets/figs/cover_img.png' | relative_url }}" alt="InSAR Norway and machine learning overview" class="page-hero__img">
   </div>
