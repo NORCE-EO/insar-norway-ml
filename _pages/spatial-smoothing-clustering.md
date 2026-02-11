@@ -2,77 +2,50 @@
 title: Spatial-Smoothing Clustering
 permalink: /clustering/spatial-smoothing-clustering/
 parent: Clustering
+nav_order: 8
 ---
 
+This experiment extends [Batched K-means]({{ '/clustering/batched-kmeans/#batched-k-means-overview' | relative_url }}) by smoothing feature vectors over graph neighborhoods before clustering.
 
-We repeated the same approach as in [Batched k-means]({{ '/clustering/batched-kmeans/# Batched $k$-Means overview' | relative_url }}) with the difference that the feature vectors are smoothed spatially.
-Smoothing is implemented by combining the features of each node with those of the neighborhood at $H$-hops:
+Smoothing combines each node feature with features from nearby nodes over $H$ hops:
 
 $$
-\boldsymbol{x}_i^{(h)} = \alpha \boldsymbol{x}_i^{(h - 1)} + (1 - \alpha) \left( \sum_{j \in \mathcal{N}_i} \boldsymbol{x}_j^{(h - 1)} \right) \qquad h=1, \dots, H
+\boldsymbol{x}_i^{(h)} = \alpha \boldsymbol{x}_i^{(h - 1)} + (1 - \alpha) \left( \sum_{j \in \mathcal{N}_i} \boldsymbol{x}_j^{(h - 1)} \right), \qquad h=1, \dots, H
 $$
 
-where $\boldsymbol{x}_i^{(h)}$ are the features after applying smoothing $h$ times, $\alpha$ controls the smoothing level, and $\mathcal{N}_i$ is the neighborhood of the $i$-th node.
-At each iteration, the features are smoothed by combining them with neighbors from a larger neighbordhood, i.e., a neighbordhood reachable with multiple hops from the start.
+where $\alpha$ controls how strongly the original feature is preserved and $\mathcal{N}_i$ is the neighborhood of node $i$.
 
-<img src="{{ '/assets/figs/clustering-smoothed/kmeans_smoothed.png' | relative_url }}" style="width: 100%; max-width: 650px; display: block; margin: 0 auto;">
+{% capture method_figures %}
+{% include gallery_figure.html src="/assets/figs/clustering-smoothed/kmeans_smoothed.png" caption="Feature smoothing over graph neighborhoods before mini-batch clustering." %}
+{% endcapture %}
+{% include gallery_section.html title="Method Visual Overview" content=method_figures %}
 
-The graph is build (and sampled) as for in the [Graph Auto Encoder]({{ '/anomaly-detection/graph-autoencoder/# Graph Construction' | relative_url }}).
+The graph is built and sampled as in the [Graph Autoencoder]({{ '/anomaly-detection/graph-autoencoder/#graph-construction' | relative_url }}).
 
 ## Results
 
-The results are obtained using $H=3$ hops. More hops would result in more smoothing, while less hops less smoothing.
+Results below use $H=3$ hops. More hops increase smoothing; fewer hops preserve more local variability.
 
-### Lyngen
+{% capture lyngen_figures %}
+{% include gallery_figure.html src="/assets/figs/clustering-smoothed/Lyngen-small_batched-kmeans-dyn_smoothed_map.png" caption="Lyngen: clustering partition (dynamic features only)." %}
+{% include gallery_figure.html src="/assets/figs/clustering-smoothed/Lyngen-small_batched-kmeans-dyn_smoothed_clusters.png" caption="Lyngen: cluster mean and standard deviation (dynamic only)." %}
+{% include gallery_figure.html src="/assets/figs/clustering-smoothed/Lyngen-small_batched-kmeans-dyn+static_smoothed_map.png" caption="Lyngen: clustering partition (dynamic and static features)." %}
+{% include gallery_figure.html src="/assets/figs/clustering-smoothed/Lyngen-small_batched-kmeans-dyn+static_smoothed_clusters.png" caption="Lyngen: cluster mean and standard deviation (dynamic and static)." %}
+{% endcapture %}
+{% include gallery_section.html title="Lyngen" content=lyngen_figures %}
 
-Clustering partition (dynamic features only).
+{% capture nordnes_figures %}
+{% include gallery_figure.html src="/assets/figs/clustering-smoothed/Nordnes_batched-kmeans-dyn_smoothed_map.png" caption="Nordnes: clustering partition (dynamic features only)." %}
+{% include gallery_figure.html src="/assets/figs/clustering-smoothed/Nordnes_batched-kmeans-dyn_smoothed_clusters.png" caption="Nordnes: cluster mean and standard deviation (dynamic only)." %}
+{% include gallery_figure.html src="/assets/figs/clustering-smoothed/Nordnes_batched-kmeans-dyn+static_smoothed_map.png" caption="Nordnes: clustering partition (dynamic and static features)." %}
+{% include gallery_figure.html src="/assets/figs/clustering-smoothed/Nordnes_batched-kmeans-dyn+static_smoothed_clusters.png" caption="Nordnes: cluster mean and standard deviation (dynamic and static)." %}
+{% endcapture %}
+{% include gallery_section.html title="Nordnes" content=nordnes_figures %}
 
-![]({{ '/assets/figs/clustering-smoothed/Lyngen-small_batched-kmeans-dyn_smoothed_map.png' | relative_url }})
-
-Mean and standard deviation of each cluster (dynamic features only).
-
-![]({{ '/assets/figs/clustering-smoothed/Lyngen-small_batched-kmeans-dyn_smoothed_clusters.png' | relative_url }})
-
-Clustering partition (dynamic and static features).
-
-![]({{ '/assets/figs/clustering-smoothed/Lyngen-small_batched-kmeans-dyn+static_smoothed_map.png' | relative_url }})
-
-Mean and standard deviation of each cluster (dynamic and static features).
-
-![]({{ '/assets/figs/clustering-smoothed/Lyngen-small_batched-kmeans-dyn+static_smoothed_clusters.png' | relative_url }})
-
-### Nordnes
-
-Clustering partition (dynamic features only).
-
-![]({{ '/assets/figs/clustering-smoothed/Nordnes_batched-kmeans-dyn_smoothed_map.png' | relative_url }})
-
-Mean and standard deviation of each cluster (dynamic features only).
-
-![]({{ '/assets/figs/clustering-smoothed/Nordnes_batched-kmeans-dyn_smoothed_clusters.png' | relative_url }})
-
-Clustering partition (dynamic and static features).
-
-![]({{ '/assets/figs/clustering-smoothed/Nordnes_batched-kmeans-dyn+static_smoothed_map.png' | relative_url }})
-
-Mean and standard deviation of each cluster (dynamic and static features).
-
-![]({{ '/assets/figs/clustering-smoothed/Nordnes_batched-kmeans-dyn+static_smoothed_clusters.png' | relative_url }})
-
-### Svalbard
-
-Clustering partition (dynamic features only).
-
-![]({{ '/assets/figs/clustering-smoothed/Svalbard-1_batched-kmeans-dyn_smoothed_map.png' | relative_url }})
-
-Mean and standard deviation of each cluster (dynamic features only).
-
-![]({{ '/assets/figs/clustering-smoothed/Svalbard-1_batched-kmeans-dyn_smoothed_clusters.png' | relative_url }})
-
-Clustering partition (dynamic and static features).
-
-![]({{ '/assets/figs/clustering-smoothed/Svalbard-1_batched-kmeans-dyn+static_smoothed_map.png' | relative_url }})
-
-Mean and standard deviation of each cluster (dynamic and static features).
-
-![]({{ '/assets/figs/clustering-smoothed/Svalbard-1_batched-kmeans-dyn+static_smoothed_clusters.png' | relative_url }})
+{% capture svalbard_figures %}
+{% include gallery_figure.html src="/assets/figs/clustering-smoothed/Svalbard-1_batched-kmeans-dyn_smoothed_map.png" caption="Svalbard: clustering partition (dynamic features only)." %}
+{% include gallery_figure.html src="/assets/figs/clustering-smoothed/Svalbard-1_batched-kmeans-dyn_smoothed_clusters.png" caption="Svalbard: cluster mean and standard deviation (dynamic only)." %}
+{% include gallery_figure.html src="/assets/figs/clustering-smoothed/Svalbard-1_batched-kmeans-dyn+static_smoothed_map.png" caption="Svalbard: clustering partition (dynamic and static features)." %}
+{% include gallery_figure.html src="/assets/figs/clustering-smoothed/Svalbard-1_batched-kmeans-dyn+static_smoothed_clusters.png" caption="Svalbard: cluster mean and standard deviation (dynamic and static)." %}
+{% endcapture %}
+{% include gallery_section.html title="Svalbard" content=svalbard_figures %}

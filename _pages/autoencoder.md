@@ -2,32 +2,31 @@
 title: Autoencoder Anomaly Detection
 permalink: /anomaly-detection/autoencoder/
 parent: Anomaly Detection
+nav_order: 4
 ---
 
 ## Overview
 
 This report documents a reconstruction-based anomaly detector trained on regularly sampled InSAR time series.
-The intuition is that an autoencoder will map the majority of the data to a compact latent space.
-Under the assumption that anomalous data are *rare*, these will not live in the same manifold in the latent space and, thus, when projected there will yield a high reconstruction error when decoded back.
-Such a reconstruction error can be used to determine which data point is anomalous and which is not.
+The core assumption is that anomalous samples are rare. The autoencoder therefore learns the dominant manifold of normal behavior and produces larger reconstruction errors for atypical points.
 
-![]({{ '/assets/figs/autoencoder/autoencoder-idea.png' | relative_url }})
+## Time-Series Embedding with Reservoir Computing
 
-## Time series Embedding with Reservoir Computing
+As discussed in the [RANSAC section]({{ '/anomaly-detection/ransac/' | relative_url }}), the time series are first regularized by filling missing timestamps with robust trend estimates.
+After regularization, each series is converted into a static embedding using Reservoir Computing.
 
-As discussed in the [RANSAC section]({{ '/anomaly-detection/autoencoder/#time-series-embedding-with-reservoir-computing' | relative_url }}), the time series are first pre-processed by filling the missing months with the RANSAC interpolant.
+{% capture method_figures %}
+{% include gallery_figure.html src="/assets/figs/autoencoder/autoencoder-idea.png" caption="Autoencoder principle: compress and reconstruct to expose anomalous behavior." %}
+{% include gallery_figure.html src="/assets/figs/autoencoder/RC-overview.png" caption="Reservoir Computing pipeline used to convert each time series into a fixed embedding." %}
+{% endcapture %}
+{% include gallery_section.html title="Method Visual Overview" content=method_figures %}
 
-Afterwards, the time series are converted into *static vectors* using Reservoir Computing.
-The basic idea is that an untrained recurrent architectures, the **Reservoir**, processes the time series and returns a *vectorial representation* containing all the dynamical features of the time series.
+The vector representation can be, for example, the last reservoir state or readout weights trained on the sequence dynamics.
+For a detailed introduction to Reservoir Computing embeddings, see [this reference](https://filippomb.github.io/python-time-series-handbook/notebooks/12/classification-clustering.html#time-series-embedding).
 
-![]({{ '/assets/figs/autoencoder/RC-overview.png' | relative_url }})
+## Model Architecture and Training
 
-The vectorial representation can be, for example, the last state of the Reservoir's states, a set of linear weights used to predict the next output or the next Reservoir's state.
-For more information about time series embeddings with RC, see [here](https://filippomb.github.io/python-time-series-handbook/notebooks/12/classification-clustering.html#time-series-embedding).
-
-## Model Architecture and training
-
-We use a symmetric fully connected encoder/decoder with bottleneck dimension.
+We use a symmetric fully connected encoder-decoder with a low-dimensional bottleneck.
 
 ```yaml
 architecture:
@@ -41,41 +40,36 @@ architecture:
     dropout: 0.1
 ```
 
-The model is trained to minimize the mse.
-
-The input are the Reservoir embeddings without the static features.
+The model minimizes mean squared reconstruction error (MSE).
+Inputs are reservoir embeddings without static features.
 
 ## Results
 
 | Dataset | Train MAE | Test MAE |
 | --- | --- | --- |
-| Lyngen   | 0.108 | 0.109 |
-| Nordnes  | 0.108 | 0.109 |
+| Lyngen | 0.108 | 0.109 |
+| Nordnes | 0.108 | 0.109 |
 | Svalbard | 0.084 | 0.085 |
 
-### Lyngen
+{% capture lyngen_figures %}
+{% include gallery_figure.html src="/assets/figs/autoencoder/mse_Simple-AE_Lyngen-small.png" caption="Lyngen: reconstruction error map." %}
+{% include gallery_figure.html src="/assets/figs/autoencoder/mse_thresh_Simple-AE_Lyngen-small.png" caption="Lyngen: top 2.5% highest-error points highlighted as anomalies." %}
+{% endcapture %}
+{% include gallery_section.html title="Lyngen" content=lyngen_figures %}
 
-Below, we plot the reconstruction error for each data point.
+{% capture nordnes_figures %}
+{% include gallery_figure.html src="/assets/figs/autoencoder/mse_Simple-AE_Nordnes.png" caption="Nordnes: reconstruction error map." %}
+{% include gallery_figure.html src="/assets/figs/autoencoder/mse_thresh_Simple-AE_Nordnes.png" caption="Nordnes: top 2.5% highest-error points highlighted as anomalies." %}
+{% endcapture %}
+{% include gallery_section.html title="Nordnes" content=nordnes_figures %}
 
-![]({{ '/assets/figs/autoencoder/mse_Simple-AE_Lyngen-small.png' | relative_url }})
-
-Then, we select the points with the top $2.5\%$ reconstruction error and we plot them as triangles. The color-coding is given by the mean velocity of each time series.
-
-![]({{ '/assets/figs/autoencoder/mse_thresh_Simple-AE_Lyngen-small.png' | relative_url }})
-
-### Nordnes
-
-![]({{ '/assets/figs/autoencoder/mse_Simple-AE_Nordnes.png' | relative_url }})
-
-![]({{ '/assets/figs/autoencoder/mse_thresh_Simple-AE_Nordnes.png' | relative_url }})
-
-### Svalbard
-
-![]({{ '/assets/figs/autoencoder/mse_Simple-AE_Svalbard-1.png' | relative_url }})
-
-![]({{ '/assets/figs/autoencoder/mse_thresh_Simple-AE_Svalbard-1.png' | relative_url }})
+{% capture svalbard_figures %}
+{% include gallery_figure.html src="/assets/figs/autoencoder/mse_Simple-AE_Svalbard-1.png" caption="Svalbard: reconstruction error map." %}
+{% include gallery_figure.html src="/assets/figs/autoencoder/mse_thresh_Simple-AE_Svalbard-1.png" caption="Svalbard: top 2.5% highest-error points highlighted as anomalies." %}
+{% endcapture %}
+{% include gallery_section.html title="Svalbard" content=svalbard_figures %}
 
 ## Limitations
 
-- No relational/spatial information is considered.
-- Time series embedding is unsupervised and occur in a preprocessing step, which is agnostic of the downstream task (i.e., the AE reconstruction).
+- No explicit spatial or relational structure is modeled.
+- The embedding stage is unsupervised and optimized independently from the downstream anomaly objective.

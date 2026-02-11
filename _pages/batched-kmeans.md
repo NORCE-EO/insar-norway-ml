@@ -2,6 +2,7 @@
 title: Batched K-means
 permalink: /clustering/batched-kmeans/
 parent: Clustering
+nav_order: 7
 ---
 
 Mini-batch $k$-means provides a scalable baseline to partition the InSAR catalogue into coherent deformation regimes.
@@ -15,7 +16,7 @@ By processing small batches, it keeps memory usage manageable while approximatin
 
 ## Batched $k$-Means overview
 
-- Consumes only one batch of points at the time, e.g. 256, consisting either of dynamic features or dynamic and static features.
+- Consumes only one batch of points at a time (for example 256 samples), consisting of either dynamic features only or dynamic and static features together.
 - Split the data into a train and test set.
 - Warm-start the centroids with a uniform sample (`S = 25,600` examples) taken from the first few batches of the train loader so that the initial cluster centers already reflect the data distribution.
 - Continue training with `MiniBatchKMeans.partial_fit`, which updates cluster centers incrementally as new batches from the train loader arrive, avoiding the need to revisit past data.
@@ -56,7 +57,7 @@ The **static** features in mainland Norway (Lyngen, Nordnes) are:
 - height
 - mean velocity
 - temporal coherence
-- aplitude dispersion
+- amplitude dispersion
 
 On Svalbard data, the static features are:
 
@@ -67,56 +68,26 @@ On Svalbard data, the static features are:
 - SLOPE
 - DOYMAX
 
-### Lyngen
+{% capture lyngen_figures %}
+{% include gallery_figure.html src="/assets/figs/clustering/Lyngen-small_batched-kmeans-dyn_map.png" caption="Clustering partition (dynamic features only)." %}
+{% include gallery_figure.html src="/assets/figs/clustering/Lyngen-small_batched-kmeans-dyn_clusters.png" caption="Mean and standard deviation of each cluster (dynamic only)." %}
+{% include gallery_figure.html src="/assets/figs/clustering/Lyngen-small_batched-kmeans-dyn+static_map.png" caption="Clustering partition (dynamic and static features)." %}
+{% include gallery_figure.html src="/assets/figs/clustering/Lyngen-small_batched-kmeans-dyn+static_clusters.png" caption="Mean and standard deviation of each cluster (dynamic and static)." %}
+{% endcapture %}
+{% include gallery_section.html title="Lyngen" content=lyngen_figures %}
 
-Clustering partition (dynamic features only).
+{% capture nordnes_figures %}
+{% include gallery_figure.html src="/assets/figs/clustering/Nordnes_batched-kmeans-dyn_map.png" caption="Clustering partition (dynamic features only)." %}
+{% include gallery_figure.html src="/assets/figs/clustering/Nordnes_batched-kmeans-dyn_clusters.png" caption="Mean and standard deviation of each cluster (dynamic only)." %}
+{% include gallery_figure.html src="/assets/figs/clustering/Nordnes_batched-kmeans-dyn+static_map.png" caption="Clustering partition (dynamic and static features)." %}
+{% include gallery_figure.html src="/assets/figs/clustering/Nordnes_batched-kmeans-dyn+static_clusters.png" caption="Mean and standard deviation of each cluster (dynamic and static)." %}
+{% endcapture %}
+{% include gallery_section.html title="Nordnes" content=nordnes_figures %}
 
-![]({{ '/assets/figs/clustering/Lyngen-small_batched-kmeans-dyn_map.png' | relative_url }})
-
-Mean and standard deviation of each cluster (dynamic features only).
-
-![]({{ '/assets/figs/clustering/Lyngen-small_batched-kmeans-dyn_clusters.png' | relative_url }})
-
-Clustering partition (dynamic and static features).
-
-![]({{ '/assets/figs/clustering/Lyngen-small_batched-kmeans-dyn+static_map.png' | relative_url }})
-
-Mean and standard deviation of each cluster (dynamic and static features).
-
-![]({{ '/assets/figs/clustering/Lyngen-small_batched-kmeans-dyn+static_clusters.png' | relative_url }})
-
-### Nordnes
-
-Clustering partition (dynamic features only).
-
-![]({{ '/assets/figs/clustering/Nordnes_batched-kmeans-dyn_map.png' | relative_url }})
-
-Mean and standard deviation of each cluster (dynamic features only).
-
-![]({{ '/assets/figs/clustering/Nordnes_batched-kmeans-dyn_clusters.png' | relative_url }})
-
-Clustering partition (dynamic and static features).
-
-![]({{ '/assets/figs/clustering/Nordnes_batched-kmeans-dyn+static_map.png' | relative_url }})
-
-Mean and standard deviation of each cluster (dynamic and static features).
-
-![]({{ '/assets/figs/clustering/Nordnes_batched-kmeans-dyn+static_clusters.png' | relative_url }})
-
-### Svalbard
-
-Clustering partition (dynamic features only).
-
-![]({{ '/assets/figs/clustering/Svalbard-1_batched-kmeans-dyn_map.png' | relative_url }})
-
-Mean and standard deviation of each cluster (dynamic features only).
-
-![]({{ '/assets/figs/clustering/Svalbard-1_batched-kmeans-dyn_clusters.png' | relative_url }})
-
-Clustering partition (dynamic and static features).
-
-![]({{ '/assets/figs/clustering/Svalbard-1_batched-kmeans-dyn+static_map.png' | relative_url }})
-
-Mean and standard deviation of each cluster (dynamic and static features).
-
-![]({{ '/assets/figs/clustering/Svalbard-1_batched-kmeans-dyn+static_clusters.png' | relative_url }})
+{% capture svalbard_figures %}
+{% include gallery_figure.html src="/assets/figs/clustering/Svalbard-1_batched-kmeans-dyn_map.png" caption="Clustering partition (dynamic features only)." %}
+{% include gallery_figure.html src="/assets/figs/clustering/Svalbard-1_batched-kmeans-dyn_clusters.png" caption="Mean and standard deviation of each cluster (dynamic only)." %}
+{% include gallery_figure.html src="/assets/figs/clustering/Svalbard-1_batched-kmeans-dyn+static_map.png" caption="Clustering partition (dynamic and static features)." %}
+{% include gallery_figure.html src="/assets/figs/clustering/Svalbard-1_batched-kmeans-dyn+static_clusters.png" caption="Mean and standard deviation of each cluster (dynamic and static)." %}
+{% endcapture %}
+{% include gallery_section.html title="Svalbard" content=svalbard_figures %}

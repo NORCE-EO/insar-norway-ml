@@ -1,0 +1,15 @@
+{% comment %}
+  Gallery section box: groups figures under a title (e.g. Lyngen, Nordnes).
+  Usage:
+    {% capture lyngen_figures %}
+      {% include gallery_figure.html src="..." caption="..." %}
+      {% include gallery_figure.html src="..." caption="..." %}
+    {% endcapture %}
+    {% include gallery_section.html title="Lyngen" content=lyngen_figures %}
+{% endcomment %}
+<section class="gallery-section">
+  <h3 class="gallery-section__title">{{ include.title }}</h3>
+  <div class="gallery-section__grid">
+    {{ include.content }}
+  </div>
+</section>

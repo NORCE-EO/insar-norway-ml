@@ -2,44 +2,44 @@
 title: Graph Autoencoder Anomaly Detection
 permalink: /anomaly-detection/graph-autoencoder/
 parent: Anomaly Detection
+nav_order: 5
 ---
 
 ## Overview
 
-The graph autoencoder (GAE) extends reconstruction-based anomaly detection by encoding spatial relationships between neighbouring InSAR points.
-Nodes represent observation points, with edges defined by k-nearest neighbours in geographic space.
+The graph autoencoder (GAE) extends reconstruction-based anomaly detection by explicitly modeling neighborhood relationships among nearby InSAR points.
+Nodes represent observation points, and edges are built from geographic nearest neighbors.
 
-### Graph Construction
+## Graph Construction
 
-- **Nodes:** Individual time series.
-- **Edges:** $k$-NN in latitude/longitude; edge weights proportional to the distance.
-- **Features:** Normalised time-series embeddings and optional static metadata.
+- **Nodes:** individual time series.
+- **Edges:** $k$-nearest neighbors in latitude/longitude, with distance-based weights.
+- **Features:** normalized time-series embeddings and optional static metadata.
 
-### Main idea
+## Main Idea
 
-The idea is to first sample some seed nodes and then sample nodes from the neighborhood of each seed node.
-The GAE must reconstruct the feature of each seed node from its neighborhood.
+Seed nodes and their sampled neighborhoods are passed through a graph encoder-decoder.
+The model reconstructs each seed-node feature from local context. Nodes with large reconstruction errors are flagged as anomalies.
 
-![]({{ '/assets/figs/graph-ae/gae-steps1-2.png' | relative_url }})
+{% capture pipeline_figures %}
+{% include gallery_figure.html src="/assets/figs/graph-ae/gae-steps1-2.png" caption="Sampling seed nodes and neighborhood subgraphs." %}
+{% include gallery_figure.html src="/assets/figs/graph-ae/gae-steps3.png" caption="Graph autoencoder reconstruction objective on sampled neighborhoods." %}
+{% endcapture %}
+{% include gallery_section.html title="GAE Workflow" content=pipeline_figures %}
 
-<img src="{{ '/assets/figs/graph-ae/gae-steps3.png' | relative_url }}" style="width: 50%; max-width: 350px; display: block; margin: 0 auto;">
+This setup is effective for identifying locally inconsistent behavior, including noisy samples caused by processing artifacts.
 
-Nodes associated with high reconstruction error will be considered outliers, as their features significantly differ from those of the neighbors.
-
-This technique is particularly effective to spot noisy samples, e.g., due to some processing errors.
-
-An example of a data batch used to train the GAE is given below.
+An example batch graph used during training is shown below.
 
 <div class="embed-graph">
   <iframe src="{{ '/assets/figs/graph-ae/batch_graph.html' | relative_url }}"
-          title="Batch Graph"
+          title="Sample training graph batch"
           loading="lazy"></iframe>
 </div>
 
-### Model architecture
+## Model Architecture
 
-The GAE model consists of an **encoder** and a **decoder**. The encoder has a stack of GCN layers, while the decoder is an MLP.
-The architecture used is the following.
+The GAE model contains a GCN-based encoder and an MLP decoder.
 
 ```yaml
 architecture:
@@ -56,20 +56,20 @@ architecture:
 
 ## Results
 
-### Lyngen
+{% capture lyngen_figures %}
+{% include gallery_figure.html src="/assets/figs/graph-ae/mse_Graph-AE_Lyngen-small.png" caption="Lyngen: reconstruction error map." %}
+{% include gallery_figure.html src="/assets/figs/graph-ae/mse_thresh_Graph-AE_Lyngen-small.png" caption="Lyngen: highest-error points marked as candidate anomalies." %}
+{% endcapture %}
+{% include gallery_section.html title="Lyngen" content=lyngen_figures %}
 
-![]({{ '/assets/figs/graph-ae/mse_Graph-AE_Lyngen-small.png' | relative_url }})
+{% capture nordnes_figures %}
+{% include gallery_figure.html src="/assets/figs/graph-ae/mse_Graph-AE_Nordnes.png" caption="Nordnes: reconstruction error map." %}
+{% include gallery_figure.html src="/assets/figs/graph-ae/mse_thresh_Graph-AE_Nordnes.png" caption="Nordnes: highest-error points marked as candidate anomalies." %}
+{% endcapture %}
+{% include gallery_section.html title="Nordnes" content=nordnes_figures %}
 
-![]({{ '/assets/figs/graph-ae/mse_thresh_Graph-AE_Lyngen-small.png' | relative_url }})
-
-### Nordnes
-
-![]({{ '/assets/figs/graph-ae/mse_Graph-AE_Nordnes.png' | relative_url }})
-
-![]({{ '/assets/figs/graph-ae/mse_thresh_Graph-AE_Nordnes.png' | relative_url }})
-
-### Svalbard
-
-![]({{ '/assets/figs/graph-ae/mse_Graph-AE_Svalbard-1.png' | relative_url }})
-
-![]({{ '/assets/figs/graph-ae/mse_thresh_Graph-AE_Svalbard-1.png' | relative_url }})
+{% capture svalbard_figures %}
+{% include gallery_figure.html src="/assets/figs/graph-ae/mse_Graph-AE_Svalbard-1.png" caption="Svalbard: reconstruction error map." %}
+{% include gallery_figure.html src="/assets/figs/graph-ae/mse_thresh_Graph-AE_Svalbard-1.png" caption="Svalbard: highest-error points marked as candidate anomalies." %}
+{% endcapture %}
+{% include gallery_section.html title="Svalbard" content=svalbard_figures %}

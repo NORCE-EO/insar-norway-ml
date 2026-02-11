@@ -1,0 +1,19 @@
+{% comment %}
+  Content section box: title + optional intro + captured content.
+  Usage:
+    {% capture section_content %}
+      ... markdown or HTML ...
+    {% endcapture %}
+    {% include content_section.html title="Section Title" content=section_content %}
+    Or with intro:
+    {% include content_section.html title="Section Title" intro="Short intro." content=section_content %}
+{% endcomment %}
+<section class="content-section">
+  <h2 class="content-section__title">{{ include.title }}</h2>
+  {% if include.intro %}
+  <p class="content-section__intro">{{ include.intro }}</p>
+  {% endif %}
+  <div class="content-section__body">
+    {{ include.content | markdownify }}
+  </div>
+</section>

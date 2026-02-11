@@ -1,0 +1,12 @@
+{% comment %}
+  Single gallery figure: clickable thumbnail, opens in lightbox.
+  Usage: {% include gallery_figure.html src="/assets/figs/..." caption="..." alt="..." %}
+{% endcomment %}
+<figure class="gallery-section__item">
+  <a href="{{ include.src | relative_url }}" class="figure-zoom" data-zoom aria-label="Enlarge image: {{ include.alt | default: include.caption | default: 'Figure' }}">
+    <img src="{{ include.src | relative_url }}" alt="{{ include.alt | default: include.caption | default: 'Figure' }}" loading="lazy" decoding="async">
+  </a>
+  {% if include.caption %}
+  <figcaption>{{ include.caption }}</figcaption>
+  {% endif %}
+</figure>

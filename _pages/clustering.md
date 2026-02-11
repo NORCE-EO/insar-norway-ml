@@ -1,12 +1,22 @@
 ---
 title: Clustering
 permalink: /clustering/
+nav_order: 6
 has_children: true
-toc: false
 ---
 
-Clustering experiments aim to group time series with similar profiles.
-We contrast an approaches that looks only at the dynamical patterns with Graph Neural Networks approaches that also account for spatial proximity of the time series.
+Clustering experiments group time series with similar deformation profiles. We contrast a purely temporal baseline against graph-based smoothing strategies that inject spatial consistency.
 
-- [Batched K-means]({{ '/clustering/batched-kmeans/' | relative_url }}) compresses the dataset with mini-batches and incremental centroid updates.
-- [Spatial-Smoothing clustering]({{ '/clustering/spatial-smoothing-clustering/' | relative_url }}) learns assignments from a GNN trained with losses inspired by spectral clustering.
+{% capture baseline_content %}
+
+- [Batched K-means]({{ '/clustering/batched-kmeans/' | relative_url }}) - mini-batch centroid updates for scalable clustering on large datasets.
+
+{% endcapture %}
+{% include content_section.html title="Baseline" intro="Fast and scalable clustering over dynamic and static features." content=baseline_content %}
+
+{% capture smooth_content %}
+
+- [Spatial-Smoothing Clustering]({{ '/clustering/spatial-smoothing-clustering/' | relative_url }}) - graph-based smoothing before mini-batch clustering.
+
+{% endcapture %}
+{% include content_section.html title="Graph-Aware Extension" intro="Inject neighborhood information to reduce local noise and improve cluster coherence." content=smooth_content %}

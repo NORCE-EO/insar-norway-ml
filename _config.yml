@@ -1,32 +1,41 @@
 # --- BASIC SITE META ---
 title: InSAR Norway & ML
-author: Filippo Maria Bianchi
 description: Results from the application of machine learning techniques to InSAR data in Norway
 url: "https://norce-eo.github.io"
 baseurl: "/insar-norway-ml"
 
-# --- THEME ---
-remote_theme: mmistakes/minimal-mistakes
-minimal_mistakes_skin: "contrast"
+# --- THEME: Just the Docs ---
+remote_theme: just-the-docs/just-the-docs
 logo: "/assets/figs/NORCE_Logo.png"
+favicon_ico: "/assets/figs/satellite.svg"
 
-# --- FEED ---
-atom_feed:
-  hide: true
+# --- SEARCH ---
+search_enabled: true
+search:
+  heading_level: 2
+  previews: 3
 
 # --- FOOTER ---
-copyright: "Filippo Maria Bianchi"
-copyright_url: "https://sites.google.com/view/filippombianchi/home"
+footer_content: false
+last_edit_timestamp: false
+gh_edit_link: false
+footer_author: Filippo Maria Bianchi
 
-
-# --- MATHJAX SCRIPTS ---
-head_scripts:
-  - /assets/js/mathjax_config.js
-  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js
+# --- COLOR ---
+color_scheme: light
 
 # --- PLUGINS ---
 plugins:
+  - jekyll-remote-theme
   - jekyll-include-cache
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# --- EXCLUDE NON-SITE FILES ---
+exclude:
+  - AGENTS.md
+  - .agents/
+  - .cursor/
 
 markdown: kramdown
 kramdown:
@@ -38,15 +47,27 @@ collections:
     output: true
     permalink: /:path/
 
+# Just the Docs: use pages collection in sidebar nav
+just_the_docs:
+  collections:
+    pages:
+      name: ""  # no sidebar category label
+
 # --- DEFAULTS ---
 defaults:
   - scope:
       path: ""
       type: pages
     values:
-      layout: single
+      layout: default
       toc: true
-      toc_label: "Contents"
-      toc_sticky: true
-      mathjax: true
-      author_profile: false
+      has_toc: true
+  - scope:
+      path: "index.md"
+    values:
+      layout: default
+      toc: false
+      has_toc: false
+
+# --- MATHJAX (loaded via head_custom.html) ---
+# head_scripts are theme-specific; we use _includes/head_custom.html

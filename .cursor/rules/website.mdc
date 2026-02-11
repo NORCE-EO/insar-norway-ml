@@ -1,0 +1,37 @@
+---
+description: Jekyll (Just the Docs) — navigation, gallery, lightbox, adding content
+globs: _pages/**/*.md,_includes/**/*,_data/**/*,_sass/**/*,assets/**/*,_config.yml,index.md
+alwaysApply: false
+---
+
+# Website (Just the Docs) conventions
+
+## Skills to use
+
+- **`.agents/skills/web-design-guidelines/`** — When reviewing UI, accessibility, or design.
+- **`.agents/skills/web-component-design/`** — When adding or refactoring interactive UI (e.g. lightbox).
+
+## Theme and styling
+
+- **Just the Docs**: `remote_theme: just-the-docs/just-the-docs`. Custom styles go in **`_sass/custom/custom.scss`** (gallery sections, lightbox, wider content, embed iframes). Head scripts and favicon in **`_includes/head_custom.html`**, footer in **`_includes/footer_custom.html`**.
+
+## Navigation
+
+- **Sidebar** is built from documents: `nav_order` (number), `parent` (title of parent page), `has_children` (true for section index pages). No separate nav YAML file.
+- **Order**: Set `nav_order: 1` for home (index.md), then 2, 3, … for sidebar order. Child pages use `parent: Anomaly Detection` or `parent: Clustering` (must match the parent page’s `title`).
+- **Prev/Next**: Optional; `_includes/post_pagination.html` exists but is not used by the theme by default.
+
+## Images and gallery sections
+
+- **Paths**: Store under `assets/figs/<topic>/`. Use `{{ '/assets/figs/...' | relative_url }}`.
+- **Gallery**: Use `{% include gallery_section.html title="Section Name" content=captured_figures %}` and `{% include gallery_figure.html src="..." caption="..." %}`. Wrap figures in `{% capture x %} ... {% endcapture %}` then pass `content=x`. Links use `data-zoom` for the lightbox (`assets/js/lightbox.js`).
+
+## Adding new content
+
+1. Create `_pages/<section>/<slug>.md` with: `title`, `permalink: /<section>/<slug>/`, `parent: <Parent Title>` (if child), and **`nav_order`** (next free number in sidebar order).
+2. Put images in `assets/figs/<topic>/` and reference with `relative_url`.
+3. No need to edit `_data/navigation.yml`; the sidebar is driven by front matter.
+
+## Styling
+
+- Edit only **`_sass/custom/custom.scss`** for overrides. Use theme-agnostic selectors (e.g. `.main-content`, `.gallery-section`). Keep contrast and responsiveness in mind.
