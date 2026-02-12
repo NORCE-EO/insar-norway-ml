@@ -374,16 +374,18 @@ input.search-input {
   margin-bottom: 0.3rem;
 }
 
-.main-content a {
-  color: var(--insar-brand);
+.main-content a,
+.content-section a {
+  color: #3408AC;
   text-decoration: none;
   border-bottom: 1px solid transparent;
   transition: color 0.18s ease, border-color 0.18s ease;
 }
 
-.main-content a:hover {
-  color: var(--insar-brand-strong);
-  border-bottom-color: rgba(14, 25, 64, 0.38);
+.main-content a:hover,
+.content-section a:hover {
+  color: #2a0690;
+  border-bottom-color: rgba(52, 8, 172, 0.5);
 }
 
 .main-content img {
