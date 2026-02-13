@@ -17,9 +17,9 @@ After regularization, each series is converted into a static embedding using Res
 
 ### Method Visual Overview
 
-{% include standalone_figure.html src="/assets/figs/autoencoder/autoencoder-idea.png" caption="Autoencoder principle: compress and reconstruct to expose anomalous behavior." %}
+{% include standalone_figure.html src="/assets/figs/autoencoder/autoencoder-idea.png" caption="Autoencoder principle: compress and reconstruct to expose anomalous behavior." max_width="550px" %}
 
-{% include standalone_figure.html src="/assets/figs/autoencoder/RC-overview.png" caption="Reservoir Computing pipeline used to convert each time series into a fixed embedding." %}
+{% include standalone_figure.html src="/assets/figs/autoencoder/RC-overview.png" caption="Reservoir Computing pipeline used to convert each time series into a fixed embedding." max_width="550px" %}
 
 The vector representation can be, for example, the last reservoir state or readout weights trained on the sequence dynamics.
 For a detailed introduction to Reservoir Computing embeddings, see [this reference](https://filippomb.github.io/python-time-series-handbook/notebooks/12/classification-clustering.html#time-series-embedding).
