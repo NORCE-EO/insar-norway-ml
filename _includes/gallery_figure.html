@@ -1,10 +1,23 @@
 {% comment %}
-  Single gallery figure: clickable thumbnail, opens in lightbox.
-  Usage: {% include gallery_figure.html src="/assets/figs/..." caption="..." alt="..." %}
+Single gallery figure: clickable thumbnail, opens in lightbox.
+Usage: {% include gallery_figure.html src="/assets/figs/..." caption="..." alt="..." %}
+Logic: Attempts to use /thumbnails/ subdirectory for the img src.
 {% endcomment %}
+
+{% assign parts = include.src | split: '/' %}
+{% assign filename = parts | last %}
+{% assign path_size = parts.size | minus: 1 %}
+{% assign path = parts | slice: 0, path_size | join: '/' %}
+{% capture thumb_path %}{{ path }}/thumbnails/{{ filename }}{% endcapture %}
+
+{% assign full_url = include.src | relative_url %}
+{% assign thumb_url = thumb_path | relative_url %}
+
 <figure class="gallery-section__item">
-  <a href="{{ include.src | relative_url }}" class="figure-zoom" data-zoom aria-label="Enlarge image: {{ include.alt | default: include.caption | default: 'Figure' }}">
-    <img src="{{ include.src | relative_url }}" alt="{{ include.alt | default: include.caption | default: 'Figure' }}" loading="lazy" decoding="async">
+  <a href="{{ full_url }}" class="figure-zoom" data-zoom
+    aria-label="{{ include.alt | default: include.caption | default: 'Figure' }}">
+    <img src="{{ thumb_url }}" alt="{{ include.alt | default: include.caption | default: 'Figure' }}" loading="lazy"
+      decoding="async" onerror="this.onerror=null;this.src='{{ full_url }}';">
   </a>
   {% if include.caption %}
   <figcaption>{{ include.caption }}</figcaption>

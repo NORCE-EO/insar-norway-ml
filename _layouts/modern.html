@@ -17,15 +17,26 @@
 
     <!-- Custom Modern CSS -->
     <link rel="stylesheet" href="{{ '/assets/css/modern-style.css' | relative_url }}">
+    <!-- Syntax Highlighting -->
+    <link rel="stylesheet" href="{{ '/assets/css/syntax.css' | relative_url }}">
+    <style>
+        .highlight {
+            background: transparent !important;
+        }
+    </style>
 
     <!-- Favicon -->
     <link rel="icon" href="{{ '/assets/figs/satellite.svg' | relative_url }}" type="image/svg+xml">
+
+    <!-- MathJax -->
+    <script src="{{ '/assets/js/mathjax_config.js' | relative_url }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
 
     <!-- SEO -->
     {% seo %}
 </head>
 
-<body class="index-page">
+<body class="{% if page.url == '/' %}index-page{% endif %}">
 
     <!-- Video Background -->
     <video autoplay muted loop playsinline class="video-background">
@@ -40,8 +51,16 @@
                 <img src="{{ '/assets/figs/NORCE_Logo.png' | relative_url }}" alt="NORCE Logo" class="logo-img">
             </a>
         </div>
+
+        <!-- Mobile Burger Menu Button -->
+        <button class="menu-toggle" aria-label="Toggle navigation">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+
         <nav>
-            <ul>
+            <ul class="nav-links">
                 <li><a href="{{ '/anomaly-detection/' | relative_url }}">Anomaly Detection</a></li>
                 <li><a href="{{ '/clustering/' | relative_url }}">Clustering</a></li>
             </ul>
@@ -74,6 +93,15 @@
                 card.style.setProperty('--mouse-x', `${x}px`);
                 card.style.setProperty('--mouse-y', `${y}px`);
             };
+        });
+
+        // Mobile Menu Toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuToggle.classList.toggle('active');
         });
 
         // Lightbox Functionality

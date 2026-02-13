@@ -17,7 +17,7 @@ where $\alpha$ controls how strongly the original feature is preserved and $\mat
 
 ### Method Visual Overview
 
-{% include standalone_figure.html src="/assets/figs/clustering-smoothed/kmeans_smoothed.png" caption="Feature smoothing over graph neighborhoods before mini-batch clustering." %}
+{% include standalone_figure.html src="/assets/figs/clustering-smoothed/kmeans_smoothed.png" caption="Feature smoothing over graph neighborhoods before mini-batch clustering." max_width="650px" %}
 
 The graph is built and sampled as in the [Graph Autoencoder]({{ '/anomaly-detection/graph-autoencoder/#graph-construction' | relative_url }}).
 

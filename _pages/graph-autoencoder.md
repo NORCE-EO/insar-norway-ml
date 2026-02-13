@@ -23,7 +23,7 @@ The model reconstructs each seed-node feature from local context. Nodes with lar
 
 ### GAE Workflow
 
-{% include standalone_figure.html src="/assets/figs/graph-ae/gae-steps1-2.png" caption="Sampling seed nodes and neighborhood subgraphs." %}
+{% include standalone_figure.html src="/assets/figs/graph-ae/gae-steps1-2.png" caption="Sampling seed nodes and neighborhood subgraphs." max_width="650px" %}
 
 {% include standalone_figure.html src="/assets/figs/graph-ae/gae-steps3.png" caption="Graph autoencoder reconstruction objective on sampled neighborhoods." max_width="450px" %}
 
