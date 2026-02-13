@@ -5,7 +5,7 @@
   Honor prefers-reduced-motion via earth-background.js
 {% endcomment %}
 <div id="earth-background" class="earth-background" aria-hidden="true">
-  <video class="earth-background__video" autoplay muted loop playsinline>
+  <video class="earth-background__video" autoplay muted loop playsinline preload="auto">
     <source src="{{ '/assets/video/earth-loop.webm' | relative_url }}" type="video/webm">
     <source src="{{ '/assets/video/earth-loop.mp4' | relative_url }}" type="video/mp4">
   </video>

@@ -40,6 +40,7 @@ body {
     height: 100vh;
     object-fit: cover;
     z-index: -2;
+    filter: brightness(1.2) contrast(1.1);
 }
 
 .video-overlay {
@@ -48,8 +49,8 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(13, 13, 13, 0.85);
-    /* Slightly darker for readability */
+    background: rgba(13, 13, 13, 0.65);
+    /* Slightly lighter for visibility */
     z-index: -1;
     pointer-events: none;
 }
