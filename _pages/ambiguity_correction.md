@@ -24,6 +24,7 @@ $$
 $$
 
 where:
+
 - $t_j$: acquisition day at time-index $j$ (days from first acquisition)
 - $j \in \{0,\dots,T-2\}$ where $T$ is the number of timestamps
 - $\Delta t_j = t_{j+1} - t_j$: gap between consecutive acquisition days
@@ -41,11 +42,11 @@ $$
 $$
 
 where:
+
 - $i \in \{1,\dots,N\}$: time-series index
 - $x_i(t)$: displacement of series $i$ as a function of time $t$
 - $a_i$: trend slope for series $i$ (displacement/day)
 - $b_i$: trend intercept for series $i$ (displacement)
-
 
 Below, we plot the RANSAC fit vs observed time series (one sample per each of the mean-velocity subgroups):
 
@@ -54,11 +55,12 @@ $$
 $$
 
 where:
+
 - $g$: is the subgroup label among `G1..G5`
 - $i_g$: representative series index selected in subgroup $g$ (closest to subgroup median velocity)
 - $x_{i_g}(t_j)$: observed displacement of representative series at acquisition day $t_j$
 
-{% include standalone_figure.html src="/assets/figs/ambiguity/ambiguity_step2_ransac_vs_observed_by_group.png" caption="RANSAC fit vs observed time series (one sample per each of the mean-velocity subgroups)." max_width="650px" %}
+{% include standalone_figure.html src="/assets/figs/ambiguity/ambiguity_step2_ransac_vs_observed_by_group.png" caption="RANSAC fit vs observed time series (one sample per each of the mean-velocity subgroups)." max_width="750px" %}
 
 ### Step 3: Per-season slope on trimmed season windows
 
@@ -67,9 +69,9 @@ We do the fit on a trimmed subset $S_s^{trim}$ of the dat asamples.
 This is done because the first/last points of a season are often less reliable (e.g., snow-transition periods, seasonal filtering artifacts, edge effects after long gaps).
 Using $S_s^{trim}$ instead of full $S_s$ makes the seasonal slope estimate less sensitive to those boundary outliers, improving robustness of the later ambiguity decision steps.
 
-Let $m$ be the number of points to remove from each season edge. In this analysis, we set $m=2$.
+Let $m_{trim}$ be the number of points to remove from each season edge.
 
-- If a season is long enough, remove the first $m$ and last $m$ timestamps from $S_s$ before fitting.
+- If a season is long enough, remove the first $m_{trim}$ and last $m_{trim}$ timestamps from $S_s$ before fitting.
 - If a season is short, do not trim (use all points).
 
 The per-series/per-season slope is computed as:
@@ -82,6 +84,7 @@ $$
 $$
 
 where:
+
 - $S_s$: index set of timestamps in season $s$
 - $S_s^{trim}$: season-$s$ indices actually used for the fit
 - $u \in S_s^{trim}$: one timestamp index used in slope fitting
@@ -91,13 +94,13 @@ where:
 Also:
 
 $$
-\bar{x}_{i,s} = \frac{1}{\vert S_{s}^{trim}\vert}\sum_{u\in S_{s}^{trim}} x_{i,u} 
+\bar{x}_{i,s} = \frac{1}{\vert S_{s}^{trim}\vert}\sum_{u\in S_{s}^{trim}} x_{i,u}
 $$
 
-and 
+and
 
-$$ 
-\bar{t}_{s} = \frac{1}{\vert S_{s}^{trim}\vert}\sum_{u\in S_{s}^{trim}} t_u 
+$$
+\bar{t}_{s} = \frac{1}{\vert S_{s}^{trim}\vert}\sum_{u\in S_{s}^{trim}} t_u
 $$
 
 **Note:** $\beta_{i,s}$ has units displacement/day.
@@ -123,6 +126,7 @@ j_{i,s}
 $$
 
 where:
+
 - $W_{s-1}^{tail}$: last $w_{jump}$ indices of trimmed season $S_{s-1}^{trim}$.
 - $W_s^{head}$: first $w_{jump}$ indices of trimmed season $S_s^{trim}$.
 
@@ -178,8 +182,8 @@ $$
 
 where:
 
-- $c_d$: cycle rate in displacement/day
-- `cycle_rate_mm_per_year`: cycle rate in displacement/year (`28` in this case)
+- $c_d$: cycle rate in displacement/day.
+- $\texttt{cycle_rate_mm_per_year}$: cycle rate in displacement/year.
 
 #### 6.2 Choose discrete candidate shift
 
@@ -221,11 +225,13 @@ $$
 $$
 
 Interpretation of $\text{improvement}_{i,s}$:
+
 - $\text{improvement}_{i,s} \approx 1$: strong gain (candidate correction removes most of the deviation).
 - $\text{improvement}_{i,s} \approx 0$: almost no gain.
 - $\text{improvement}_{i,s} < 0$: candidate correction makes the residual worse.
 
 Range of improvement $\text{improvement}_{i,s}$:
+
 - Upper bound is $1$.
 - Lower side is unbounded in theory (very negative values are possible when $d^{(0)}_ {i,s}$ is very small and $d^{(k)}_{i,s}$ is larger).
 - So, in theory: $\text{improvement}_{i,s} \in (-\infty, 1]$.
@@ -235,7 +241,6 @@ To control the range, we define $\text{confidence}^{raw}_{i,s} \in [0,1]$:
 $$
 \text{confidence}^{raw}_{i,s} = \operatorname{clip}(\text{improvement}_{i,s}, 0, 1)
 $$
-
 
 ### 6.4 Neighbor safety penalty (optional)
 
@@ -259,6 +264,7 @@ $$
 $$
 
 with:
+
 - $\tau_{neigh}$: neighbor-coherence threshold
 - $\lambda$: penalty factor
 
@@ -284,6 +290,7 @@ $$
 $$
 
 with:
+
 - $\tau_{imp}$: improvement threshold
 - $\tau_{conf}$: confidence threshold
 
@@ -294,7 +301,6 @@ For each selected series and season, correction is applied to all timestamps in 
 $$
 x^{corr}_{i,t} = x_{i,t} - k^*_{i,s} c_d (t - t_{s,0}), \quad t\in s
 $$
-
 
 ## Visualization of corrected time series
 
@@ -315,6 +321,6 @@ From each median-velocity group, we visualize the original displacement series $
 | $m_{trim}$ | edge-trim points per season |
 | $w_{jump}$ | boundary window size |
 | $c_{yr}$ | cycle rate in mm/year |
-| $\mathcal{K}$ | candidate cycle-shift set|
+| $\mathcal{K}$ | candidate cycle-shift set |
 | $K_n$ | number of spatial neighbors |
-| $\lambda_{neigh}$ | neighbor penalty factor|
+| $\lambda_{neigh}$ | neighbor penalty factor |
