@@ -288,6 +288,30 @@ main {
     color: #cbd5e1;
 }
 
+/* Markdown tables */
+.page-content table {
+    width: auto;
+    max-width: 100%;
+    margin: 1.5rem auto;
+    border-collapse: collapse;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.page-content th,
+.page-content td {
+    padding: 0.65rem 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e5e7eb;
+    vertical-align: top;
+}
+
+.page-content thead th {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    font-weight: 600;
+}
+
 /* IMAGE HANDING & GALLERY */
 img {
     max-width: 100%;

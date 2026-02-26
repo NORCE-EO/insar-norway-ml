@@ -1,4 +1,11 @@
 main:
+  - title: Data Preprocessing
+    url: /data-preprocessing/
+    children:
+      - title: Ambiguity Correction
+        url: /data-preprocessing/ambiguity-correction/
+      - title: Data Imputation
+        url: /data-preprocessing/data-imputation/
   - title: Anomaly Detection
     url: /anomaly-detection/
     children:
